@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class FilmListScrollPane extends JScrollPane {
-    private JScrollPane scrollPane;
     private ArrayList<Map<String,Object>> movieList;
     private Map<String, Object> currentMovie;
 
     public FilmListScrollPane(ArrayList<Map<String,Object>> list){
         this.movieList = list;
-        this.setBounds(100,100,600,600);
+        this.setBounds(100,100,500,500);
 
         JPanel borderLayoutPanel = new JPanel();
         this.setViewportView(borderLayoutPanel);
@@ -65,5 +64,7 @@ public class FilmListScrollPane extends JScrollPane {
             }
         }
     }
+
+
 
 }
