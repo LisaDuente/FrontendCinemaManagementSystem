@@ -33,11 +33,13 @@ public class Main {
         movieList.add(movie3);
 
         JFrame test = new JFrame();
-        test.setSize(700,700);
+        test.setSize(600,600);
 
         test.setLayout(new BorderLayout());
 
         FilmListScrollPane ourPanels = new FilmListScrollPane(movieList);
+        BackPanel backPanel = new BackPanel(ourPanels);
+        test.getContentPane().add(backPanel,BorderLayout.SOUTH);
         test.getContentPane().add(ourPanels,BorderLayout.CENTER);
         test.setVisible(true);
     }

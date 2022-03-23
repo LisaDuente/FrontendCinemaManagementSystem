@@ -26,7 +26,7 @@ public class FilmListScrollPane extends JScrollPane {
             if((boolean)this.currentMovie.get("isAvailable")) {
 
                 JPanel rowPanel = new JPanel();
-                rowPanel.setPreferredSize(new Dimension(400, 100));
+                rowPanel.setPreferredSize(new Dimension(600, 100));
                 columnPanel.add(rowPanel);
 
                 JButton book = new JButton("Book");
@@ -64,7 +64,5 @@ public class FilmListScrollPane extends JScrollPane {
             }
         }
     }
-
-
 
 }
