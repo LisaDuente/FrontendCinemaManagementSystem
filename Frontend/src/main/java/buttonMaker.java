@@ -7,6 +7,7 @@ public class buttonMaker extends JButton {
     public int r, g, b;
     public final Font font = new Font("sanserif", Font.BOLD, 30);
     public String endpoint;
+
     public buttonMaker(String btnName, int r, int g, int b, String endpoint){
         this.setForeground(Color.WHITE);
         this.setFont(font); //blalba

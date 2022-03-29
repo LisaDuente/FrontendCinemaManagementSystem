@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        Map<String,Object> movie1 = new HashMap<>();
+       /* Map<String,Object> movie1 = new HashMap<>();
         movie1.put("name", "The Batman");
         movie1.put("genre", "Action");
         movie1.put("duration", "120 minutes");
@@ -37,10 +37,13 @@ public class Main {
 
         test.setLayout(new BorderLayout());
 
-        FilmListScrollPane ourPanels = new FilmListScrollPane(movieList);
+        FilmListScrollPane ourPanels = new FilmListScrollPane();
         BackPanel backPanel = new BackPanel(ourPanels);
         test.getContentPane().add(backPanel,BorderLayout.SOUTH);
         test.getContentPane().add(ourPanels,BorderLayout.CENTER);
         test.setVisible(true);
+
+        */
+        MainFrame frame = new MainFrame();
     }
 }

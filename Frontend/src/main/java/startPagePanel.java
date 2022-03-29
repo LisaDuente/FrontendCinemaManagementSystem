@@ -11,6 +11,17 @@ public class startPagePanel extends JPanel {
     JPanel navPanel;
     JPanel contentPanel;
 
+    JLabel logo;
+
+    JTextArea moto;
+
+    buttonMaker home;
+    buttonMaker aboutUs;
+    buttonMaker contact;
+    buttonMaker book;
+    buttonMaker listOfMovies;
+    buttonMaker watch;
+
 
     public startPagePanel(){ //MAIN PANEL
         this.setPreferredSize(new Dimension(1000,800));
@@ -26,13 +37,13 @@ public class startPagePanel extends JPanel {
         this.navPanel.setLayout(null);
         this.navPanel.setPreferredSize(new Dimension(1000,100));
         this.navPanel.setBackground(new Color(144, 12, 63));
-        buttonMaker home = new buttonMaker("HOME", 255,87,15, "/blabla");
-        buttonMaker aboutUs = new buttonMaker("About Us", 255, 87, 15, "/blabla");
-        buttonMaker contact = new buttonMaker("Contact Us", 255, 87, 15, "/blabla");
-        home.setBounds(150,15,150,70);
-        aboutUs.setBounds(350, 15, 180, 70);
-        contact.setBounds(580, 15, 200, 70);
-        JLabel logo = logoSetup();
+        this.home = new buttonMaker("HOME", 255,87,15, "/blabla");
+        this.aboutUs = new buttonMaker("About Us", 255, 87, 15, "/blabla");
+        this.contact = new buttonMaker("Contact Us", 255, 87, 15, "/blabla");
+        this.home.setBounds(150,15,150,70);
+        this.aboutUs.setBounds(350, 15, 180, 70);
+        this.contact.setBounds(580, 15, 200, 70);
+        this.logo = logoSetup();
         this.navPanel.add(logo);
         this.navPanel.add(home);
         this.navPanel.add(aboutUs);
@@ -44,14 +55,14 @@ public class startPagePanel extends JPanel {
         this.contentPanel = new JPanel();
         JPanel newMoviePanel = newMoviePanel();
 
-        JTextArea moto = motoSetup();
+        this.moto = motoSetup();
         this.contentPanel.setPreferredSize(new Dimension(1000, 1000 - this.navPanel.getHeight()));
         this.contentPanel.setBackground(new Color(81, 24, 69));
         this.contentPanel.setLayout(null);
-        buttonMaker book = new buttonMaker("Reserve", 255, 87, 15, "/blabla");
-        buttonMaker listOfMovies = new buttonMaker("See all movies", 255, 87, 15, "/blabla");
-        book.setBounds(80, 130, 250,100);
-        listOfMovies.setBounds(80, 300, 250,100);
+        this.book = new buttonMaker("Reserve", 255, 87, 15, "/blabla");
+        this.listOfMovies = new buttonMaker("See all movies", 255, 87, 15, "/blabla");
+        this.book.setBounds(80, 130, 250,100);
+        this.listOfMovies.setBounds(80, 300, 250,100);
         this.contentPanel.add(moto);
         this.contentPanel.add(book);
         this.contentPanel.add(listOfMovies);
@@ -98,8 +109,8 @@ public class startPagePanel extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(199, 0, 57));
         buttonPanel.setSize(500, 200);
-        buttonMaker watch = new buttonMaker("watch", 255,87,15, "/blalba");
-        watch.setBounds(230, 0, 150,150);
+        this.watch = new buttonMaker("watch", 255,87,15, "/blalba");
+        this.watch.setBounds(230, 0, 150,150);
         buttonPanel.add(watch);
         buttonPanel.setBounds(0, 400, 500, 200);
 
@@ -131,6 +142,7 @@ public class startPagePanel extends JPanel {
         return logo;
     } //LOGO
 
+    /*
     public static void main(String[] args) {
         JFrame test = new JFrame("test");
         test.setSize(1000,800);
@@ -141,4 +153,31 @@ public class startPagePanel extends JPanel {
 
         test.setVisible(true);
     }
+
+     */
+
+    public buttonMaker getBook() {
+        return book;
+    }
+
+    public buttonMaker getAboutUs() {
+        return aboutUs;
+    }
+
+    public buttonMaker getContact() {
+        return contact;
+    }
+
+    public buttonMaker getHome() {
+        return home;
+    }
+
+    public buttonMaker getListOfMovies() {
+        return listOfMovies;
+    }
+
+    public buttonMaker getWatch() {
+        return watch;
+    }
 }
+
