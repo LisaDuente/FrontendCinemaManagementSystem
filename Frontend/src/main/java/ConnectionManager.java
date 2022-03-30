@@ -9,10 +9,11 @@ import java.net.URL;
 public class ConnectionManager {
     private HttpURLConnection connection;
     private Gson gson;
-    private String responseString = "";
+    //private String responseString = "";
 
     //ERKAN
     public String sendUrlToCreateMovie(String name, String genre, String duration, String desc, String shortdesc, String picpath){
+        String responseString = "";
         try {
             URL url = new URL("http://localhost:8080/addMovie?name=" + name + "&genre=" + genre + "&duration=" + duration + "&movieDescription=" + desc + "&shortDescription=" + shortdesc + "&picPath=" + picpath);
             connection = (HttpURLConnection) url.openConnection();
@@ -35,6 +36,7 @@ public class ConnectionManager {
         return responseString;
     }
     public String sendUrlToDownloadAllMovies(){
+        String responseString = "";
         try {
             URL url = new URL("http://localhost:8080/downloadAllMovies");
             connection = (HttpURLConnection) url.openConnection();
@@ -56,6 +58,7 @@ public class ConnectionManager {
         return responseString;
     }
     public String sendUrlToDownloadMovieById(int id){
+        String responseString = "";
         try {
             URL url = new URL("http://localhost:8080/downloadOneMovie?id=" + id);
             connection = (HttpURLConnection) url.openConnection();
@@ -78,6 +81,7 @@ public class ConnectionManager {
         return responseString;
     }
     public String sendUrlToDeleteMovieById(int id){
+        String responseString = "";
         try {
             URL url = new URL("http://localhost:8080/deleteMovieById?movieId=" + id);
             connection = (HttpURLConnection) url.openConnection();
@@ -95,6 +99,7 @@ public class ConnectionManager {
         return responseString;
     }
     public String sendUrlToDownloadMostRecentlyAddedMovie(){
+        String responseString = "";
         try {
             URL url = new URL("http://localhost:8080/downloadMostRecentMovie");
             connection = (HttpURLConnection) url.openConnection();
@@ -113,6 +118,7 @@ public class ConnectionManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(responseString);
         return responseString;
     }
     //LISA

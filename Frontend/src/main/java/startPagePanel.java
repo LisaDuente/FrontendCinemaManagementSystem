@@ -8,19 +8,22 @@ import java.io.File;
 import java.io.IOException;
 
 public class startPagePanel extends JPanel {
-    JPanel navPanel;
-    JPanel contentPanel;
+    private JPanel navPanel;
+    private JPanel contentPanel;
 
-    JLabel logo;
+    private JLabel logo;
 
-    JTextArea moto;
+    private JTextArea moto;
+    private JTextArea movieDesc;
 
-    buttonMaker home;
-    buttonMaker aboutUs;
-    buttonMaker contact;
-    buttonMaker book;
-    buttonMaker listOfMovies;
-    buttonMaker watch;
+    private buttonMaker home;
+    private buttonMaker aboutUs;
+    private buttonMaker contact;
+    private buttonMaker book;
+    private buttonMaker listOfMovies;
+    private buttonMaker watch;
+
+    private JLabel moviePicture;
 
 
     public startPagePanel(){ //MAIN PANEL
@@ -91,19 +94,19 @@ public class startPagePanel extends JPanel {
         moviePanel.setBackground(new Color(199, 0, 57));
         moviePanel.setSize(500,350);
         moviePanel.setLayout(null);
-        JLabel moviePicture = new JLabel(new ImageIcon("src/main/java/testbatman.png"));
-        moviePicture.setBounds(0, 60, 196, 300);
-        JTextArea movieDesc = new JTextArea("The film sees the Batman, who has been fighting crime in Gotham City for two years, uncover corruption while pursuing the Riddler (Dano), a serial killer who targets Gotham's elite. Development began after Ben Affleck was cast as the Batman in the DC Extended Universe");
-        movieDesc.setWrapStyleWord(true);
-        movieDesc.setLineWrap(true);
-        movieDesc.setEditable(false);
-        movieDesc.setFocusable(false);
-        movieDesc.setFont(new Font("sanserif", Font.BOLD, 15));
-        movieDesc.setBounds(200, 60, 304, 300);
-        movieDesc.setForeground(Color.white);
-        movieDesc.setBackground(new Color(199, 0, 57));
-        moviePanel.add(moviePicture);
-        moviePanel.add(movieDesc);
+        this.moviePicture = new JLabel(new ImageIcon("src/main/java/testbatman.png"));
+        this.moviePicture.setBounds(0, 60, 196, 300);
+        this.movieDesc = new JTextArea("The film sees the Batman, who has been fighting crime in Gotham City for two years, uncover corruption while pursuing the Riddler (Dano), a serial killer who targets Gotham's elite. Development began after Ben Affleck was cast as the Batman in the DC Extended Universe");
+        this.movieDesc.setWrapStyleWord(true);
+        this.movieDesc.setLineWrap(true);
+        this.movieDesc.setEditable(false);
+        this.movieDesc.setFocusable(false);
+        this.movieDesc.setFont(new Font("sanserif", Font.BOLD, 15));
+        this.movieDesc.setBounds(200, 60, 304, 300);
+        this.movieDesc.setForeground(Color.white);
+        this.movieDesc.setBackground(new Color(199, 0, 57));
+        moviePanel.add(this.moviePicture);
+        moviePanel.add(this.movieDesc);
 
 
         JPanel buttonPanel = new JPanel();
@@ -178,6 +181,22 @@ public class startPagePanel extends JPanel {
 
     public buttonMaker getWatch() {
         return watch;
+    }
+
+    public JTextArea getMovieDesc() {
+        return movieDesc;
+    }
+
+    public JLabel getMoviePicture() {
+        return moviePicture;
+    }
+
+    public void setMovieDesc(JTextArea movieDesc) {
+        this.movieDesc = movieDesc;
+    }
+
+    public void setMoviePicture(JLabel moviePicture) {
+        this.moviePicture = moviePicture;
     }
 }
 

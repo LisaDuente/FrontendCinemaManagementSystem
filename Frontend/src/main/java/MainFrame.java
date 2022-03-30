@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainFrame extends JFrame {
     startPagePanel startPage;
@@ -13,7 +14,7 @@ public class MainFrame extends JFrame {
     BackPanel backPanel;
     ConnectionManager connect;
     Gson gson;
-    //Movie currentMovie;
+    Movie newestMovie;
     //ArrayList<Movie> movieArrayList;
 
     public MainFrame() {
@@ -30,6 +31,16 @@ public class MainFrame extends JFrame {
         this.backPanel = new BackPanel();
         this.movieList = new FilmListScrollPane(this.movieDetails, this.backPanel);
 
+        //INITIALIZE MOVIES
+        String movieListString = connect.sendUrlToDownloadAllMovies();
+        this.movieList.setMovieListFromBackend(gson.fromJson(movieListString, new TypeToken<ArrayList<JsonObject>>() {
+        }.getType()));
+        String mostRecentAsString = connect.sendUrlToDownloadMostRecentlyAddedMovie();
+        this.newestMovie = gson.fromJson(mostRecentAsString,Movie.class);
+        this.startPage.getMovieDesc().setText(this.newestMovie.getMovieDescription());
+        this.movieList.addPanels();
+
+
         //ADD TO FRAME
         this.add(this.movieList, BorderLayout.CENTER);
         this.add(this.backPanel, BorderLayout.SOUTH);
@@ -44,15 +55,22 @@ public class MainFrame extends JFrame {
         this.setVisible(true);
 
         //ADD FUNCTIONALITY
-        this.startPage.getBook().addActionListener((e) -> {
+        this.startPage.getBook().addActionListener((e)->{
+            //download the whole movieSchedule and go to booking page
+        });
+
+        this.startPage.getListOfMovies().addActionListener((e) -> {
             this.startPage.setVisible(false);
             this.movieList.setVisible(true);
             this.backPanel.setVisible(true);
 
-            String movieListString = connect.sendUrlToDownloadAllMovies();
-            this.movieList.setMovieListFromBackend(gson.fromJson(movieListString, new TypeToken<ArrayList<JsonObject>>() {
-            }.getType()));
-            this.movieList.addPanels();
+        });
+
+        this.startPage.getWatch().addActionListener((e)->{
+            this.startPage.setVisible(false);
+            this.movieDetails.setCurrentMovie(this.newestMovie);
+            this.movieDetails.updatePanel();
+            this.movieDetails.setVisible(true);
         });
 
         this.movieDetails.getBack().addActionListener((e) -> {

@@ -8,32 +8,33 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class FilmListScrollPane extends JScrollPane {
-    MovieDetailsPanel movieDetails;
-    BackPanel back;
+    private MovieDetailsPanel movieDetails;
+    private BackPanel back;
+    private Gson gson = new Gson();
+    private JPanel columnPanel;
+    private ConnectionManager connector;
     private Movie currentMovie = new Movie();
-    ArrayList<Movie> movieListFromBackend;
-    //buttonMaker backButton;
-    Gson gson = new Gson();
-    JPanel columnPanel;
+    private ArrayList<Movie> movieListFromBackend;
+
 
     //TODO: Add an Image Icon and a Link from a website to this panel
     public FilmListScrollPane(MovieDetailsPanel movieDetails, BackPanel back){
+        this.connector = new ConnectionManager();
         this.movieDetails = movieDetails;
         this.back = back;
-        this.setBounds(50,20,900,700);
+        this.setBounds(50,20,900,600);
+        this.setBackground(new Color(81, 24, 69));
+        this.setForeground(new Color(81, 24, 69));
 
         JPanel borderLayoutPanel = new JPanel();
         this.setViewportView(borderLayoutPanel);
         borderLayoutPanel.setLayout(new BorderLayout(0,0));
+        borderLayoutPanel.setBackground(new Color(81, 24, 69));
 
         columnPanel = new JPanel();
         borderLayoutPanel.add(columnPanel,BorderLayout.NORTH);
-        columnPanel.setLayout(new GridLayout(0,1,0,1));
-        columnPanel.setBackground(Color.DARK_GRAY);
-
-        //this.backButton = new buttonMaker("Back",255,87,15,"test");
-        //borderLayoutPanel.add(backButton,BorderLayout.SOUTH);
-
+        columnPanel.setLayout(new GridLayout(0,1,0,2));
+        columnPanel.setBackground(new Color(81, 24, 69));
 
     }
 
@@ -51,8 +52,8 @@ public class FilmListScrollPane extends JScrollPane {
                 JPanel rowPanel = new JPanel();
                 rowPanel.setPreferredSize(new Dimension(600, 100));
                 columnPanel.add(rowPanel);
-                JButton book = new JButton("Book");
-                book.setBounds(550, 35, 100, 30);
+                buttonMaker book = new buttonMaker("Book",255, 87, 15, "/blabla");
+                book.setBounds(550, 20, 150, 75);
                 rowPanel.add(book);
 
                 //to get the ID
@@ -62,7 +63,8 @@ public class FilmListScrollPane extends JScrollPane {
 
                     this.setVisible(false);
                     //loads the right movie from the movie list
-                    this.currentMovie = gson.fromJson(String.valueOf(movieListFromBackend.get(Integer.parseInt(id.getText())-1)),Movie.class);
+                    String temp = connector.sendUrlToDownloadMovieById(Integer.parseInt(id.getText()));
+                    this.currentMovie = gson.fromJson(temp,Movie.class);
                     this.movieDetails.setCurrentMovie(this.currentMovie);
                     this.movieDetails.updatePanel();
                     this.movieDetails.setVisible(true);
@@ -73,18 +75,26 @@ public class FilmListScrollPane extends JScrollPane {
                 //change this
                 JLabel movieTitle = new JLabel(this.currentMovie.getName());
                 movieTitle.setBounds(150, 10, 200, 30);
+                movieTitle.setFont(new Font("Italic", Font.ITALIC, 25));
+                movieTitle.setForeground(Color.white);
                 rowPanel.add(movieTitle);
 
-                JLabel movieGenre = new JLabel(this.currentMovie.getGenre());
+                JLabel movieGenre = new JLabel("Genre: "+this.currentMovie.getGenre());
                 movieGenre.setBounds(150, 35, 200, 30);
+                movieGenre.setFont(new Font("Italic", Font.ITALIC, 15));
+                movieGenre.setForeground(Color.white);
                 rowPanel.add(movieGenre);
 
-                JLabel movieDuration = new JLabel(this.currentMovie.getDuration());
-                movieDuration.setBounds(150, 50, 200, 30);
+                JLabel movieDuration = new JLabel("Duration: "+this.currentMovie.getDuration());
+                movieDuration.setBounds(150, 60, 200, 30);
+                movieDuration.setFont(new Font("Italic", Font.ITALIC, 15));
+                movieDuration.setForeground(Color.white);
                 rowPanel.add(movieDuration);
 
                 JTextArea shortMovieDescription = new JTextArea(this.currentMovie.getShortDescription());
                 shortMovieDescription.setBounds(350, 10, 200, 100);
+                shortMovieDescription.setFont(new Font("Italic", Font.ITALIC, 15));
+                shortMovieDescription.setForeground(Color.white);
                 shortMovieDescription.setEditable(false);
                 shortMovieDescription.setLineWrap(true);
 
@@ -92,11 +102,11 @@ public class FilmListScrollPane extends JScrollPane {
 
                 rowPanel.setLayout(null);
                 if (i % 2 == 0) {
-                    rowPanel.setBackground(SystemColor.pink);
-                    shortMovieDescription.setBackground(SystemColor.pink);
+                    rowPanel.setBackground(new Color(144, 12, 63));
+                    shortMovieDescription.setBackground(new Color(144, 12, 63));
                 }else{
-                    shortMovieDescription.setBackground(SystemColor.WHITE);
-                    rowPanel.setBackground(SystemColor.WHITE);
+                    shortMovieDescription.setBackground(new Color(144, 12, 63));
+                    rowPanel.setBackground(new Color(144, 12, 63));
                 }
                 rowPanel.setVisible(true);
             }
