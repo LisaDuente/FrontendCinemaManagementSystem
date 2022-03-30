@@ -44,13 +44,13 @@ public class MovieDetailsPanel extends JPanel {
         this.image.setSize(300,300);
 
         //COLORS AND FONTS
-        this.title.setFont(new Font("Italic", Font.ITALIC, 30));
+        this.title.setFont(new Font("sanserif", Font.BOLD, 30));
         this.title.setForeground(Color.white);
-        this.duration.setFont(new Font("Italic", Font.ITALIC, 20));
+        this.duration.setFont(new Font("sanserif", Font.BOLD, 20));
         this.duration.setForeground(Color.white);
-        this.genre.setFont(new Font("Italic", Font.ITALIC, 20));
+        this.genre.setFont(new Font("sanserif", Font.BOLD, 20));
         this.genre.setForeground(Color.white);
-        this.description.setFont(new Font("Italic", Font.ITALIC, 25));
+        this.description.setFont(new Font("sanserif", Font.BOLD, 25));
         this.description.setForeground(Color.white);
         this.description.setBackground(colorMiddle);
 

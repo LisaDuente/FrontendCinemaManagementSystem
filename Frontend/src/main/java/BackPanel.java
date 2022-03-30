@@ -6,7 +6,7 @@ public class BackPanel extends JPanel {
     private String state = "start";
 
     public BackPanel() {
-        this.setSize(700, 200);
+        this.setSize(1000, 200);
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(81, 24, 69));
 

@@ -22,13 +22,14 @@ public class FilmListScrollPane extends JScrollPane {
         this.connector = new ConnectionManager();
         this.movieDetails = movieDetails;
         this.back = back;
-        this.setBounds(50,20,900,600);
+        this.setBounds(0,0,1000,710);
         this.setBackground(new Color(81, 24, 69));
         this.setForeground(new Color(81, 24, 69));
 
+
         JPanel borderLayoutPanel = new JPanel();
         this.setViewportView(borderLayoutPanel);
-        borderLayoutPanel.setLayout(new BorderLayout(0,0));
+        borderLayoutPanel.setLayout(new BorderLayout());
         borderLayoutPanel.setBackground(new Color(81, 24, 69));
 
         columnPanel = new JPanel();
@@ -75,25 +76,25 @@ public class FilmListScrollPane extends JScrollPane {
                 //change this
                 JLabel movieTitle = new JLabel(this.currentMovie.getName());
                 movieTitle.setBounds(150, 10, 200, 30);
-                movieTitle.setFont(new Font("Italic", Font.ITALIC, 25));
+                movieTitle.setFont(new Font("sanserif", Font.BOLD, 25));
                 movieTitle.setForeground(Color.white);
                 rowPanel.add(movieTitle);
 
                 JLabel movieGenre = new JLabel("Genre: "+this.currentMovie.getGenre());
                 movieGenre.setBounds(150, 35, 200, 30);
-                movieGenre.setFont(new Font("Italic", Font.ITALIC, 15));
+                movieGenre.setFont(new Font("sanserif", Font.BOLD, 15));
                 movieGenre.setForeground(Color.white);
                 rowPanel.add(movieGenre);
 
                 JLabel movieDuration = new JLabel("Duration: "+this.currentMovie.getDuration());
                 movieDuration.setBounds(150, 60, 200, 30);
-                movieDuration.setFont(new Font("Italic", Font.ITALIC, 15));
+                movieDuration.setFont(new Font("sanserif", Font.BOLD, 15));
                 movieDuration.setForeground(Color.white);
                 rowPanel.add(movieDuration);
 
                 JTextArea shortMovieDescription = new JTextArea(this.currentMovie.getShortDescription());
                 shortMovieDescription.setBounds(350, 10, 200, 100);
-                shortMovieDescription.setFont(new Font("Italic", Font.ITALIC, 15));
+                shortMovieDescription.setFont(new Font("sanserif", Font.BOLD, 15));
                 shortMovieDescription.setForeground(Color.white);
                 shortMovieDescription.setEditable(false);
                 shortMovieDescription.setLineWrap(true);

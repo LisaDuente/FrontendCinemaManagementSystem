@@ -22,6 +22,7 @@ public class startPagePanel extends JPanel {
     private buttonMaker book;
     private buttonMaker listOfMovies;
     private buttonMaker watch;
+    private buttonMaker admin;
 
     private JLabel moviePicture;
 
@@ -62,14 +63,21 @@ public class startPagePanel extends JPanel {
         this.contentPanel.setPreferredSize(new Dimension(1000, 1000 - this.navPanel.getHeight()));
         this.contentPanel.setBackground(new Color(81, 24, 69));
         this.contentPanel.setLayout(null);
+
         this.book = new buttonMaker("Reserve", 255, 87, 15, "/blabla");
         this.listOfMovies = new buttonMaker("See all movies", 255, 87, 15, "/blabla");
+        this.admin = new buttonMaker("Admin", 255, 87, 15, "/blabla");
+
         this.book.setBounds(80, 130, 250,100);
         this.listOfMovies.setBounds(80, 300, 250,100);
+        this.admin.setBounds(20,600,150,50);
+
         this.contentPanel.add(moto);
         this.contentPanel.add(book);
         this.contentPanel.add(listOfMovies);
         this.contentPanel.add(newMoviePanel);
+        this.contentPanel.add(this.admin);
+
         this.contentPanel.setVisible(true);
         return this.contentPanel;
     }
@@ -185,6 +193,10 @@ public class startPagePanel extends JPanel {
 
     public JTextArea getMovieDesc() {
         return movieDesc;
+    }
+
+    public buttonMaker getAdmin() {
+        return admin;
     }
 
     public JLabel getMoviePicture() {
