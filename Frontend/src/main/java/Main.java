@@ -21,7 +21,7 @@ public class Main {
         movie2.put("isAvailable", true);
 
         Map<String,Object> movie3 = new HashMap<>();
-        movie3.put("name", "Pokemon - The Movie");
+        movie3.put("name", "Pokemon - The Classes.Movie");
         movie3.put("genre", "Animation");
         movie3.put("duration", "187 minutes");
         movie3.put("shortDescription","Ash an Pikachu become best friends");
@@ -37,8 +37,8 @@ public class Main {
 
         test.setLayout(new BorderLayout());
 
-        FilmListScrollPane ourPanels = new FilmListScrollPane();
-        BackPanel backPanel = new BackPanel(ourPanels);
+        Panels.FilmListScrollPane ourPanels = new Panels.FilmListScrollPane();
+        Panels.BackPanel backPanel = new Panels.BackPanel(ourPanels);
         test.getContentPane().add(backPanel,BorderLayout.SOUTH);
         test.getContentPane().add(ourPanels,BorderLayout.CENTER);
         test.setVisible(true);

@@ -1,3 +1,8 @@
+package Panels;
+
+import Classes.Movie;
+import Functionality.buttonMaker;
+
 import javax.swing.*;
 import java.awt.*;
 

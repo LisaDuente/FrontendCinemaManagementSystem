@@ -1,3 +1,5 @@
+package Classes;
+
 public class MovieSchedule {
 
     private String salonId;
@@ -18,7 +20,7 @@ public class MovieSchedule {
 
     @Override
     public String toString() {
-        return "MovieSchedule{" +
+        return "Classes.MovieSchedule{" +
                 "salonId='" + salonId + '\'' +
                 ", movieTime='" + movieTime + '\'' +
                 ", movieDate='" + movieDate + '\'' +

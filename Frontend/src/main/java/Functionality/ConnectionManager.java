@@ -1,3 +1,5 @@
+package Functionality;
+
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -85,17 +87,19 @@ public class ConnectionManager {
         try {
             URL url = new URL("http://localhost:8080/deleteMovieById?movieId=" + id);
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("GET");
             connection.setReadTimeout(5000);
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
+            System.out.println(status);
             if (status < 300){
                 return responseString = "movie" + id + " deleted succesfully";
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return responseString;
     }
     public String sendUrlToDownloadMostRecentlyAddedMovie(){
@@ -149,5 +153,28 @@ public class ConnectionManager {
             e.printStackTrace();
         }
         return response;
+    }
+
+    public String sendUrlToDownloadAllEmployees(){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadAllEmployees");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
     }
 }

@@ -1,11 +1,13 @@
+package Panels;
+
+import Classes.Movie;
+import Functionality.buttonMaker;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
+import Functionality.ConnectionManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class FilmListScrollPane extends JScrollPane {
     private MovieDetailsPanel movieDetails;

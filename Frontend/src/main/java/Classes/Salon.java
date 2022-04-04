@@ -1,3 +1,5 @@
+package Classes;
+
 public class Salon { // Toros
     private String salonID; // varchar(20) PK
     private int cinemaID; // int UN
@@ -19,7 +21,7 @@ public class Salon { // Toros
 
     @Override
     public String toString() {
-        return "Salon{" +
+        return "Classes.Salon{" +
                 "salonID='" + salonID + '\'' +
                 ", cinemaID=" + cinemaID +
                 ", salonRows=" + salonRows +

@@ -1,3 +1,5 @@
+package Classes;
+
 public class Movie {
 
     private int id;
@@ -26,7 +28,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
+        return "Classes.Movie{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", genre='" + genre + '\'' +

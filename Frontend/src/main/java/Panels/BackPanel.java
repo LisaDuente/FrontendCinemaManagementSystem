@@ -1,3 +1,7 @@
+package Panels;
+
+import Functionality.buttonMaker;
+
 import javax.swing.*;
 import java.awt.*;
 

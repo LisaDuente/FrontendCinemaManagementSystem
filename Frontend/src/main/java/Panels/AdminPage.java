@@ -1,3 +1,7 @@
+package Panels;
+
+import Functionality.buttonMaker;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
@@ -86,5 +90,21 @@ public class AdminPage extends JPanel {
         this.setVisible(true);
 
 
+    }
+
+    public buttonMaker getMovie() {
+        return movie;
+    }
+
+    public buttonMaker getMovieSchedule() {
+        return movieSchedule;
+    }
+
+    public buttonMaker getStaff() {
+        return staff;
+    }
+
+    public buttonMaker getStaffSchedule() {
+        return staffSchedule;
     }
 }

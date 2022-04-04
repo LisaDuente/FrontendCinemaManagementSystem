@@ -1,11 +1,9 @@
-import javax.imageio.ImageIO;
+package Panels;
+
+import Functionality.buttonMaker;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class startPagePanel extends JPanel {
     private JPanel navPanel;
@@ -158,8 +156,8 @@ public class startPagePanel extends JPanel {
         JFrame test = new JFrame("test");
         test.setSize(1000,800);
         test.setLayout(new BorderLayout());
-        startPagePanel startPagePanel = new startPagePanel();
-        test.add(startPagePanel, BorderLayout.CENTER);
+        Panels.startPagePanel Panels.startPagePanel = new Panels.startPagePanel();
+        test.add(Panels.startPagePanel, BorderLayout.CENTER);
         test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         test.setVisible(true);

@@ -1,3 +1,6 @@
+import Classes.Movie;
+import Functionality.ConnectionManager;
+import Panels.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -5,7 +8,6 @@ import com.google.gson.reflect.TypeToken;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainFrame extends JFrame {
     startPagePanel startPage;
@@ -15,9 +17,13 @@ public class MainFrame extends JFrame {
     ReceiptPanel receipt;
     ConnectionManager connect;
     AdminPage admin;
+    AdminPageAddFilm movie;
+    AdminPageAddEmployee employee;
+    AdminPageMovieSchedule movieSchedule;
+    AdminPageEmployeeSchedule employeeSchedule;
     Gson gson;
     Movie newestMovie;
-    //ArrayList<Movie> movieArrayList;
+    //ArrayList<Classes.Movie> movieArrayList;
 
     public MainFrame() {
         //DEFINE FRAME
@@ -34,6 +40,10 @@ public class MainFrame extends JFrame {
         this.movieList = new FilmListScrollPane(this.movieDetails, this.backPanel);
         this.receipt = new ReceiptPanel();
         this.admin = new AdminPage();
+        this.movie = new AdminPageAddFilm();
+        this.employee = new AdminPageAddEmployee();
+        this.movieSchedule = new AdminPageMovieSchedule();
+        this.employeeSchedule = new AdminPageEmployeeSchedule();
 
 
         //INITIALIZE MOVIES
@@ -41,7 +51,7 @@ public class MainFrame extends JFrame {
         this.movieList.setMovieListFromBackend(gson.fromJson(movieListString, new TypeToken<ArrayList<JsonObject>>() {
         }.getType()));
         String mostRecentAsString = connect.sendUrlToDownloadMostRecentlyAddedMovie();
-        this.newestMovie = gson.fromJson(mostRecentAsString,Movie.class);
+        this.newestMovie = gson.fromJson(mostRecentAsString, Movie.class);
         this.startPage.getMovieDesc().setText(this.newestMovie.getMovieDescription());
         this.movieList.addPanels();
 
@@ -52,6 +62,10 @@ public class MainFrame extends JFrame {
         this.add(this.movieDetails, BorderLayout.CENTER);
         this.add(this.receipt,BorderLayout.CENTER);
         this.add(this.admin, BorderLayout.CENTER);
+        this.add(this.movie,BorderLayout.CENTER);
+        this.add(this.employee, BorderLayout.CENTER);
+        this.add(this.movieSchedule, BorderLayout.CENTER);
+        this.add(this.employeeSchedule, BorderLayout.CENTER);
         this.add(this.startPage, BorderLayout.CENTER);
 
         //SET VISIBILITY
@@ -61,6 +75,10 @@ public class MainFrame extends JFrame {
         this.movieDetails.setVisible(false);
         this.receipt.setVisible(false);
         this.admin.setVisible(false);
+        this.movie.setVisible(false);
+        this.employee.setVisible(false);
+        this.movieSchedule.setVisible(false);
+        this.employeeSchedule.setVisible(false);
         this.setVisible(true);
 
         //ADD FUNCTIONALITY STARTPAGE
@@ -110,6 +128,67 @@ public class MainFrame extends JFrame {
 
         this.receipt.getClose().addActionListener((e)-> {
             this.dispose();
+        });
+
+        //ADD FUNCTIONALITY ADMINPANEL
+
+            this.admin.getMovie().addActionListener((e)-> {
+            this.admin.setVisible(false);
+            this.backPanel.setVisible(false);
+            this.movie.setVisible(true);
+            this.movie.fillList();
+        });
+
+            this.admin.getStaff().addActionListener((e )-> {
+                this.admin.setVisible(false);
+                this.backPanel.setVisible(false);
+                this.employee.setVisible(true);
+                this.employee.fillList();
+            });
+
+        this.admin.getMovieSchedule().addActionListener((e )-> {
+            this.admin.setVisible(false);
+            this.backPanel.setVisible(false);
+            this.movieSchedule.setVisible(true);
+            this.movieSchedule.fillList();
+        });
+
+        this.admin.getStaffSchedule().addActionListener((e)->{
+            this.admin.setVisible(false);
+            this.backPanel.setVisible(false);
+            this.employeeSchedule.setVisible(true);
+            this.employeeSchedule.fillList();
+        });
+
+        //ADD FUNCTIONALITY MOVIE
+
+        this.movie.getBack().addActionListener((e)->{
+            this.movie.setVisible(false);
+            this.admin.setVisible(true);
+            this.backPanel.setVisible(true);
+        });
+
+        //ADD FUNCTIONALITY TO EMPLOYEE
+
+        this.employee.getBack().addActionListener((e)->{
+            this.employee.setVisible(false);
+            this.admin.setVisible(true);
+            this.backPanel.setVisible(true);
+        });
+
+        //ADD FUNCTIONALITY TO MOVIESCHEDULE
+
+        this.movieSchedule.getBack().addActionListener((e)->{
+            this.movieSchedule.setVisible(false);
+            this.admin.setVisible(true);
+            this.backPanel.setVisible(true);
+        });
+
+        //ADD FUNCTIONALITY TO EMPLOYEESCHEDULE
+        this.employeeSchedule.getBack().addActionListener((e)->{
+            this.employeeSchedule.setVisible(false);
+            this.admin.setVisible(true);
+            this.backPanel.setVisible(true);
         });
 
         //ADD FUNCTIONALITY BACKPANEL
