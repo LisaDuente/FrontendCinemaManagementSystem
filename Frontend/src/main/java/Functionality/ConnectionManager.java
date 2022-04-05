@@ -102,6 +102,27 @@ public class ConnectionManager {
 
         return responseString;
     }
+
+    public String sendUrlToDeleteEmployeeScheduleById(int employeeId){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/deleteEmployeeScheduleById?employeeId=" + employeeId);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                return responseString = "employeeSchedule" + employeeId + " deleted succesfully";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return responseString;
+    }
     public String sendUrlToDownloadMostRecentlyAddedMovie(){
         String responseString = "";
         try {

@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class AdminPageEmployeeSchedule extends JPanel {
     private ConnectionManager connect = new ConnectionManager();
@@ -108,13 +109,15 @@ public class AdminPageEmployeeSchedule extends JPanel {
 
         //TODO: Make these next two methods!
         this.enter.addActionListener((e -> {
+
             this.model.clear();
-            String employeeScheduleAsList = connect.sendUrlToCreateEmployeeSchedule(Integer.parseInt(employeeId.getText()), Integer.parseInt(taskId.getText()), Integer.parseInt(workstationId.getText()), shift.getText());
-            String parameterString = "get everything from the textfields," +
+            this.connect.sendUrlToCreateEmployeeSchedule(Integer.parseInt(employeeId.getText()), Integer.parseInt(taskId.getText()), Integer.parseInt(workstationId.getText()), shift.getText());
+            /*String parameterString = "get everything from the textfields," +
                     "clear Textfields if it worked out" +
                     "send a request via connection Manager";
 
-            System.out.println(this.workstationId.getText());
+             */
+            //System.out.println(this.workstationId.getText());
             fillList();
         }));
 
@@ -126,6 +129,8 @@ public class AdminPageEmployeeSchedule extends JPanel {
         this.update.addActionListener((e)->{
             //get the strings from the specific fields, feed them to the backend
         });
+
+
 
         buttons.add(this.enter);
         buttons.add(this.delete);
@@ -148,7 +153,7 @@ public class AdminPageEmployeeSchedule extends JPanel {
         String employeeWorkplanListAsString = connect.sendUrlToDownloadEmployeeWorkplan();
         EmployeeWorkplan[] employeeWorkplan = gson.fromJson(employeeWorkplanListAsString, EmployeeWorkplan[].class);
         for(int i = 0; i<employeeWorkplan.length;i++){
-            //only shows the name of the movie
+            //shows the employeeWorkplan(our view in database)
             this.model.add(i, String.valueOf(employeeWorkplan[i].getEmployeeName())+", "+employeeWorkplan[i].getWorkstation()+", "+employeeWorkplan[i].getTask()+", "+employeeWorkplan[i].getShift());
         }
     }

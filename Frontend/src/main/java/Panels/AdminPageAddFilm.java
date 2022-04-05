@@ -149,11 +149,12 @@ public class AdminPageAddFilm extends JPanel {
         }));
 
         this.delete.addActionListener((e) -> {
-            String movieString = this.list.getSelectedValue();
-            String[] temp = movieString.split(",");
-            int id = Integer.parseInt(temp[0]);
-            this.connect.sendUrlToDeleteMovieById(id);
-            fillList();
+                String movieString = this.list.getSelectedValue();
+                String[] temp = movieString.split(",");
+                int id = Integer.parseInt(temp[0]);
+                this.connect.sendUrlToDeleteMovieById(id);
+                fillList();
+
         });
 
         this.update.addActionListener((e)->{
