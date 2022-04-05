@@ -201,7 +201,7 @@ public class ConnectionManager {
             URL url = new URL("http://localhost:8080/insertNewEmployee?employeeName=" + employeeName + "&employeeTel=" + employeeTel + "&employeeEmail=" + employeeEmail);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST"); // Or connection.setRequestMethod("GET"); ?? If so change to @PostMapping in employeeController class
-            connection.setReadTimeOut(5000);
+            connection.setReadTimeout(5000);
             connection.setConnectTimeout(5000);
             connection.setDoOutput(true);
 
@@ -324,7 +324,7 @@ public class ConnectionManager {
             connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("POST");
-            connection.setReadTimeOut(5000);
+            connection.setReadTimeout(5000);
 
             connection.setConnectTimeout(5000);
             connection.setDoOutput(true);
@@ -348,15 +348,15 @@ public class ConnectionManager {
     public String sendURLToDeleteSalonByID(int SalonID) {
         String responseString = "";
         try {
-            URL url = new URL("http://localhost:8080/deleteSalonByID?salonID=" + salonID);
+            URL url = new URL("http://localhost:8080/deleteSalonByID?salonID=" + SalonID);
             connection.setRequestMethod("DELETE");
             connection.setReadTimeout(5000);
-            connection.setConnectionTimeout(5000);
+            connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
             System.out.println(status);
             if (status < 300) {
-                return responseString = "employee" + id + " deleted successfully";
+                return responseString = "employee" + SalonID + " deleted successfully";
             }
         } catch (IOException e) {
             e.printStackTrace();
