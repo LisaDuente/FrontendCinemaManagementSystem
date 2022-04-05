@@ -74,6 +74,10 @@ public class Movie {
 
     public String getShortDescription() {return this.shortDescription;}
 
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
     public String getMovieDescription() {
         return movieDescription;
     }

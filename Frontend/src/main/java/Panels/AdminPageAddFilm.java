@@ -2,6 +2,7 @@ package Panels;
 
 import Classes.Movie;
 import Functionality.ConnectionManager;
+import Functionality.UpdateManager;
 import Functionality.buttonMaker;
 import com.google.gson.Gson;
 
@@ -11,6 +12,7 @@ import java.awt.*;
 public class AdminPageAddFilm extends JPanel {
     private ConnectionManager connect = new ConnectionManager();
     private Gson gson = new Gson();
+    private UpdateManager updater = new UpdateManager();
     private JScrollPane scrollList;
     private JList<String> list;
     private DefaultListModel<String> model;
@@ -80,7 +82,7 @@ public class AdminPageAddFilm extends JPanel {
         this.movieGenreText = new JLabel("Genre:");
         this.movieGenreText.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieGenreText.setForeground(Color.white);
-        this.movieDurationText = new JLabel("Duration");
+        this.movieDurationText = new JLabel("Duration:");
         this.movieDurationText.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieDurationText.setForeground(Color.white);
         this.movieShortText = new JLabel("Short Description:");
@@ -154,10 +156,12 @@ public class AdminPageAddFilm extends JPanel {
             int id = Integer.parseInt(temp[0]);
             this.connect.sendUrlToDeleteMovieById(id);
             fillList();
+            //clearAllText();
         });
 
         this.update.addActionListener((e)->{
-            //get the strings from the specific fields, feed them to the backend
+            updateButtonFunctionality();
+            clearAllText();
         });
 
         buttons.add(this.enter);
@@ -181,12 +185,57 @@ public class AdminPageAddFilm extends JPanel {
         Movie[] movies = gson.fromJson(movieListAsSTring, Movie[].class);
         for(int i = 0; i<movies.length;i++){
             //only shows the name of the movie
-           this.model.add(i, String.valueOf(movies[i].getId())+","+movies[i].getName());
+           this.model.add(i, String.valueOf(movies[i].getId()+","+movies[i].getName())+","+movies[i].getGenre()+","+movies[i].getDuration());
         }
 
     }
 
     public buttonMaker getBack() {
         return back;
+    }
+
+    public void updateButtonFunctionality(){
+        //get the strings from the specific fields, feed them to the backend
+        String input = "";
+        if (!this.movieID.getText().equals("")) {
+            input = this.movieIdText.getText()+this.movieID.getText()+",";
+        }
+        if (!this.movieName.getText().equals("")) {
+            input = input + this.movieNameText.getText()+this.movieName.getText()+",";
+        }
+        if (!this.genre.getText().equals("")) {
+            input = input + this.movieGenreText.getText()+this.genre.getText()+",";
+        }
+        if (!this.duration.getText().equals("")) {
+            input = input + this.movieDurationText.getText()+this.duration.getText()+",";
+        }
+        if (!this.shortDesc.getText().equals("")) {
+            input = input + this.movieShortText.getText()+this.shortDesc.getText()+",";
+        }
+        if (!this.movieDesc.getText().equals("")) {
+            input = input + this.movieDescrText.getText()+this.movieDesc.getText()+",";
+        }
+        if (!this.picturePath.getText().equals("")) {
+            input = input + this.moviePictureText.getText()+this.picturePath.getText()+",";
+        }
+        if (!this.available.getText().equals("")) {
+            input = input + this.movieAvailableText.getText()+this.available.getText()+",";
+        }
+
+        input =  input.replace(" ","+");
+        Movie movie = updater.updateMovie(input);
+        connect.sendUrlToUpdateMovie(movie);
+        fillList();
+    }
+
+    public void clearAllText(){
+        this.movieID.setText("");
+        this.movieName.setText("");
+        this.genre.setText("");
+        this.duration.setText("");
+        this.movieDesc.setText("");
+        this.shortDesc.setText("");
+        this.picturePath.setText("");
+        this.available.setText("");
     }
 }
