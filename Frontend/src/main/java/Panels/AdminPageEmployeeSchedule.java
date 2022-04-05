@@ -1,5 +1,6 @@
 package Panels;
 
+import Classes.EmployeeWorkplan;
 import Classes.Movie;
 import Functionality.ConnectionManager;
 import Functionality.buttonMaker;
@@ -50,7 +51,7 @@ public class AdminPageEmployeeSchedule extends JPanel {
         this.scrollList.createHorizontalScrollBar();
         this.scrollList.setBounds(50,50,900,200);
 
-        this.info = new JLabel("Choose a movie from the list to delete!");
+        this.info = new JLabel("Choose a shift to delete!");
         this.info.setFont(new Font("sanserif", Font.BOLD, 15));
         this.info.setForeground(Color.WHITE);
         this.info.setBounds(50,10,500,25);
@@ -107,11 +108,14 @@ public class AdminPageEmployeeSchedule extends JPanel {
 
         //TODO: Make these next two methods!
         this.enter.addActionListener((e -> {
+            this.model.clear();
+            String employeeScheduleAsList = connect.sendUrlToCreateEmployeeSchedule(Integer.parseInt(employeeId.getText()), Integer.parseInt(taskId.getText()), Integer.parseInt(workstationId.getText()), shift.getText());
             String parameterString = "get everything from the textfields," +
                     "clear Textfields if it worked out" +
                     "send a request via connection Manager";
 
             System.out.println(this.workstationId.getText());
+            fillList();
         }));
 
         this.delete.addActionListener((e) -> {
@@ -141,13 +145,12 @@ public class AdminPageEmployeeSchedule extends JPanel {
     public void fillList(){
         //TODO: get in the view for employeeSchedule
         this.model.clear();
-        String movieListAsSTring = connect.sendUrlToDownloadAllMovies();
-        Movie[] movies = gson.fromJson(movieListAsSTring, Movie[].class);
-        for(int i = 0; i<movies.length;i++){
+        String employeeWorkplanListAsString = connect.sendUrlToDownloadEmployeeWorkplan();
+        EmployeeWorkplan[] employeeWorkplan = gson.fromJson(employeeWorkplanListAsString, EmployeeWorkplan[].class);
+        for(int i = 0; i<employeeWorkplan.length;i++){
             //only shows the name of the movie
-            this.model.add(i, String.valueOf(movies[i].getId())+","+movies[i].getName());
+            this.model.add(i, String.valueOf(employeeWorkplan[i].getEmployeeName())+", "+employeeWorkplan[i].getWorkstation()+", "+employeeWorkplan[i].getTask()+", "+employeeWorkplan[i].getShift());
         }
-
     }
 
     public buttonMaker getBack() {

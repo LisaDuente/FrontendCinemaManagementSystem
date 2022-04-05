@@ -183,7 +183,6 @@ public class AdminPageAddFilm extends JPanel {
             //only shows the name of the movie
            this.model.add(i, String.valueOf(movies[i].getId())+","+movies[i].getName());
         }
-
     }
 
     public buttonMaker getBack() {
