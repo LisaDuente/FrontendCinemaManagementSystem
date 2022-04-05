@@ -1,5 +1,6 @@
 package Functionality;
 
+import Classes.Movie;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -87,7 +88,8 @@ public class ConnectionManager {
         try {
             URL url = new URL("http://localhost:8080/deleteMovieById?movieId=" + id);
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
             connection.setReadTimeout(5000);
             connection.setConnectTimeout(5000);
 
@@ -95,6 +97,31 @@ public class ConnectionManager {
             System.out.println(status);
             if (status < 300){
                 return responseString = "movie" + id + " deleted succesfully";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return responseString;
+    }
+
+    //TODO: why can't it take in spaces? maybe set the charset to something else
+    public String sendUrlToUpdateMovie(Movie movie){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/updateMovie?id=" + movie.getId()+"&name=" + movie.getName()+
+                    "&genre=" + movie.getGenre()+ "&duration=" + movie.getDuration() + "&movieDescription=" + movie.getMovieDescription()
+                    + "&shortDescription=" + movie.getShortDescription() + "&picPath=" + movie.getPicturePath());
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                return responseString = "movie" + movie.getName() + " dupdated succesfully";
             }
         } catch (IOException e) {
             e.printStackTrace();

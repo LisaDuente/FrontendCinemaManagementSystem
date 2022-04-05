@@ -45,6 +45,10 @@ public class FilmListScrollPane extends JScrollPane {
         this.movieListFromBackend = movieListFromBackend;
     }
 
+    public void emptyList(){
+        columnPanel.removeAll();
+    }
+
     public void addPanels(){
         for(int i = 0; i<movieListFromBackend.size(); i++){
             //converts the json objects in the list to actual movie objects
@@ -114,6 +118,10 @@ public class FilmListScrollPane extends JScrollPane {
                 rowPanel.setVisible(true);
             }
         }
+    }
+
+    public ArrayList<Movie> getMovieListFromBackend() {
+        return movieListFromBackend;
     }
 }
 
