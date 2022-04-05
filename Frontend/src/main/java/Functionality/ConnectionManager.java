@@ -1,5 +1,6 @@
 package Functionality;
 
+import Classes.Movie;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -60,6 +61,7 @@ public class ConnectionManager {
         }
         return responseString;
     }
+
     public String sendUrlToDownloadMovieById(int id){
         String responseString = "";
         try {
@@ -89,7 +91,8 @@ public class ConnectionManager {
         try {
             URL url = new URL("http://localhost:8080/deleteMovieById?movieId=" + id);
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
             connection.setReadTimeout(5000);
             connection.setConnectTimeout(5000);
 
@@ -97,6 +100,30 @@ public class ConnectionManager {
             System.out.println(status);
             if (status < 300){
                 return responseString = "movie" + id + " deleted succesfully";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return responseString;
+    }
+
+    public String sendUrlToUpdateMovie(Movie movie){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/updateMovie?id=" + movie.getId()+"&name=" + movie.getName()+
+                    "&genre=" + movie.getGenre()+ "&duration=" + movie.getDuration() + "&movieDescription=" + movie.getMovieDescription()
+                    + "&shortDescription=" + movie.getShortDescription() + "&picPath=" + movie.getPicturePath());
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                return responseString = "movie" + movie.getName() + " dupdated succesfully";
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -158,39 +185,10 @@ public class ConnectionManager {
         return response;
     }
 
-    /*
-        // for reference:
+    // ------------------------------------------- Employee --------------------------------------------------------
+
+    // for reference:
     // int employeeID, String employeeName, String employeeTel, String employeeEmail
-    public void deleteEmployeeByID(int employeeID) {
-        String query = "DELETE FROM employees WHERE employee_ID = ?;";
-        int result = jdbcTemplate.update(query, employeeID);
-
-        if (result > 0) {
-            System.out.println(result + "employee deleted from database");
-            this.error = "employee deleted from database";
-        }
-    }
-     */
-
-    // Toros
-    public String sendURLToDeleteEmployeeByID(int id) {
-        String responseString = "";
-        try {
-            URL url = new URL("http://localhost:8080/deleteEmployeeByID?employeeID=" + id);
-            connection.setRequestMethod("DELETE");
-            connection.setReadTimeout(5000);
-            connection.setConnectionTimeout(5000);
-
-            int status = connection.getResponseCode();
-            System.out.println(status);
-            if (status < 300) {
-                return responseString = "employee" + id + " deleted successfully";
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return responseString;
-    }
 
     // Toros
     // Not working correctly yet
@@ -221,7 +219,78 @@ public class ConnectionManager {
         return responseString;
     }
 
-    public String sendUrlToDownloadAllEmployees(){
+    // Toros
+    // Not tested
+    public String sendURLToDeleteEmployeeByID(int id) {
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/deleteEmployeeByID?employeeID=" + id);
+            connection.setRequestMethod("DELETE");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300) {
+                return responseString = "employee" + id + " deleted successfully";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+    // Not tested
+    public String sendURLToDownloadOneEmployeeByName(String employeeName) { // Toros
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadOneMovie?employeeName=" + employeeName);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("response:"+responseString);
+        return responseString;
+    }
+
+    // Not tested
+    public String sendURLToDownloadOneEmployeeByID(int employeeID) { // Toros
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadOneEmployeeByID?employeeID=" + employeeID);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("response:" + responseString);
+        return responseString;
+    }
+
+    public String sendUrlToDownloadAllEmployees(){ // Lisa
         String responseString = "";
         try {
             URL url = new URL("http://localhost:8080/downloadAllEmployees");
@@ -241,6 +310,83 @@ public class ConnectionManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return responseString;
+    }
+
+    // ---------------------------------- Salon ----------------------------------------
+
+    // Toros
+    // Not tested
+    public String sendURLToInsertNewSalon (int salonID, int cinemaID, int salonRows, String salonSeats) {
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/insertNewSalon?salonID=" + salonID + "&cinemaID=" + cinemaID + "&salonRows=" + salonRows + "&salonSeats=" + salonSeats);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("POST");
+            connection.setReadTimeOut(5000);
+
+            connection.setConnectTimeout(5000);
+            connection.setDoOutput(true);
+
+            int status = connection.getResponseCode();
+            if (status < 300) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+    // Toros
+    // Not tested
+    public String sendURLToDeleteSalonByID(int SalonID) {
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/deleteSalonByID?salonID=" + salonID);
+            connection.setRequestMethod("DELETE");
+            connection.setReadTimeout(5000);
+            connection.setConnectionTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300) {
+                return responseString = "employee" + id + " deleted successfully";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+    // Toros
+    // Not tested
+    public String sendURLToDownloadOneSalonByID(int salonID) { // Toros
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadOneSalonByID?salonID=" + salonID);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("response:" + responseString);
         return responseString;
     }
 }
