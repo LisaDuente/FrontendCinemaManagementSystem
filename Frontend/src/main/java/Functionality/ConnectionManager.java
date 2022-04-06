@@ -109,6 +109,27 @@ public class ConnectionManager {
         return responseString;
     }
 
+    public String sendUrlToDeleteEmployeeScheduleById(int employeeId){//Igor
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/deleteEmployeeScheduleById?employeeId=" + employeeId);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+              return responseString = "employeeSchedule" + employeeId + " deleted succesfully";
+              }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return responseString;
+    }
+
     public String sendUrlToUpdateMovie(Movie movie){
         String responseString = "";
         try {
@@ -118,6 +139,7 @@ public class ConnectionManager {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
+
             connection.setReadTimeout(5000);
             connection.setConnectTimeout(5000);
 
@@ -311,6 +333,30 @@ public class ConnectionManager {
         return responseString;
     }
 
+
+    public String sendUrlToDownloadEmployeeWorkplan(){ //Igor
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadEmployeeWorkplan");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+           connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+           int status = connection.getResponseCode();
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
     public String sendUrlToUpdateEmployee(Employee employee){ //LISA
         String responseString = "";
 
@@ -320,11 +366,15 @@ public class ConnectionManager {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
+
             connection.setReadTimeout(5000);
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
             if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
                 return responseString = "movie" + employee.getEmployeeName() + " updated succesfully";
             }
         } catch (IOException e) {
@@ -350,6 +400,33 @@ public class ConnectionManager {
             connection.setDoOutput(true);
 
             int status = connection.getResponseCode();
+            if (status < 300) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+
+    public String sendUrlToCreateEmployeeSchedule(int employeeId, int taskId, int workstationId, String shift){//Igor
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/insertEmployeeSchedule?employeeId=" + employeeId + "&taskId=" + taskId + "&workstationId=" + workstationId + "&shift=" + shift);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+            connection.setDoOutput(true);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+          int status = connection.getResponseCode();
             if (status < 300) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";

@@ -157,6 +157,7 @@ public class AdminPageAddFilm extends JPanel {
             this.connect.sendUrlToDeleteMovieById(id);
             fillList();
             //clearAllText();
+
         });
 
         this.update.addActionListener((e)->{
@@ -187,7 +188,6 @@ public class AdminPageAddFilm extends JPanel {
             //only shows the name of the movie
            this.model.add(i, String.valueOf(movies[i].getId()+","+movies[i].getName())+","+movies[i].getGenre()+","+movies[i].getDuration());
         }
-
     }
 
     public buttonMaker getBack() {
