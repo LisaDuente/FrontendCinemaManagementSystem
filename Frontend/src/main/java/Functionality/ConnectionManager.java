@@ -1,5 +1,6 @@
 package Functionality;
 
+import Classes.Employee;
 import Classes.Movie;
 import com.google.gson.Gson;
 
@@ -152,7 +153,6 @@ public class ConnectionManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(responseString);
         return responseString;
     }
     //LISA
@@ -261,7 +261,6 @@ public class ConnectionManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("response:"+responseString);
         return responseString;
     }
 
@@ -269,7 +268,7 @@ public class ConnectionManager {
     public String sendURLToDownloadOneEmployeeByID(int employeeID) { // Toros
         String responseString = "";
         try {
-            URL url = new URL("http://localhost:8080/downloadOneEmployeeByID?employeeID=" + employeeID);
+            URL url = new URL("http://localhost:8080/downloadOneEmployeeByID?employee_ID=" + employeeID);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setReadTimeout(5000);
@@ -286,7 +285,6 @@ public class ConnectionManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("response:" + responseString);
         return responseString;
     }
 
@@ -306,6 +304,28 @@ public class ConnectionManager {
                 while ((line = reader.readLine()) != null){
                     responseString = responseString + line;
                 }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+    public String sendUrlToUpdateEmployee(Employee employee){ //LISA
+        String responseString = "";
+
+        try {
+            URL url = new URL("http://localhost:8080/updateEmployee?id=" + employee.getEmployeeID()+"&name=" + employee.getEmployeeName()+
+                    "&tel=" + employee.getEmployeeTel()+ "&mail=" + employee.getEmployeeEmail());
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            if (status < 300){
+                return responseString = "movie" + employee.getEmployeeName() + " updated succesfully";
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -386,7 +406,6 @@ public class ConnectionManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("response:" + responseString);
         return responseString;
     }
 }

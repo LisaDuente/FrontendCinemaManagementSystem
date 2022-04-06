@@ -67,4 +67,38 @@ public class UpdateManager {
         }
         return this.movie;
     }
+
+    public Employee updateEmployee(String parameterString){
+        Employee employee = new Employee();
+        String[] parameters = parameterString.split(",");
+        String[] checkID = parameters[0].split(":");
+
+        if(checkID[0].equals("ID")) {
+            if(Character.isDigit(checkID[1].charAt(0))){
+
+                String employeeToUpdate = connection.sendURLToDownloadOneEmployeeByID(Integer.parseInt(checkID[1]));
+                employee = gson.fromJson(employeeToUpdate, Employee.class);
+
+                for (int i = 1; i < parameters.length; i++) {
+                    String[] temp = parameters[i].split(":");
+                    switch (temp[0]) {
+                        case "Name":
+                            employee.setEmployeeName(temp[1]);
+                            break;
+                        case "Mobil":
+                            employee.setEmployeeTel(temp[1]);
+                            break;
+                        case "E-Mail":
+                            employee.setEmployeeEmail(temp[1]);
+                            break;
+                    }
+                }
+            }else{
+                employee = null;
+            }
+        }else{
+            employee = null;
+        }
+        return employee;
+    }
 }

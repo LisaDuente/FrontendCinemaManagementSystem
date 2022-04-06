@@ -1,5 +1,7 @@
 package Panels;
 
+import Classes.Movie;
+import Functionality.UpdateManager;
 import Functionality.buttonMaker;
 import com.google.gson.Gson;
 import Functionality.ConnectionManager;
@@ -10,6 +12,7 @@ import java.awt.*;
 
 
 public class AdminPageAddEmployee extends JPanel {
+    private UpdateManager updater = new UpdateManager();
     private ConnectionManager connect = new ConnectionManager();
     private Gson gson = new Gson();
     private JScrollPane scrollList;
@@ -73,7 +76,7 @@ public class AdminPageAddEmployee extends JPanel {
         this.employeeTelText = new JLabel("Mobil:");
         this.employeeTelText.setFont(new Font("sanserif", Font.BOLD, 15));
         this.employeeTelText.setForeground(Color.white);
-        this.employeeMailText = new JLabel("E-Mail");
+        this.employeeMailText = new JLabel("E-Mail:");
         this.employeeMailText.setFont(new Font("sanserif", Font.BOLD, 15));
         this.employeeMailText.setForeground(Color.white);
 
@@ -122,7 +125,8 @@ public class AdminPageAddEmployee extends JPanel {
         });
 
         this.update.addActionListener((e)->{
-            //get the strings from the specific fields, feed them to the backend
+            updateFunctionality();
+            clearAllText();
         });
 
         buttons.add(this.enter);
@@ -154,6 +158,37 @@ public class AdminPageAddEmployee extends JPanel {
 
     public buttonMaker getBack() {
         return back;
+    }
+
+    public void updateFunctionality(){
+        String input = "";
+        if (!this.employeeID.getText().equals("")) {
+            input = this.employeeIdText.getText()+this.employeeID.getText()+",";
+        }
+        if (!this.employeeName.getText().equals("")) {
+            input = input + this.employeeNameText.getText()+this.employeeName.getText()+",";
+        }
+        if (!this.employeeTel.getText().equals("")) {
+            input = input + this.employeeTelText.getText()+this.employeeTel.getText()+",";
+        }
+        if (!this.employeeMail.getText().equals("")) {
+            input = input + this.employeeMailText.getText()+this.employeeMail.getText()+",";
+        }
+
+        input =  input.replace(" ","+");
+        input = input.replace("@","%40");
+        input = input.replace(".","%2E");
+        Employee employee = updater.updateEmployee(input);
+        employee.changeSpecialCharacters();
+        connect.sendUrlToUpdateEmployee(employee);
+        fillList();
+    }
+
+    public void clearAllText(){
+        this.employeeTel.setText("");
+        this.employeeID.setText("");
+        this.employeeName.setText("");
+        this.employeeMail.setText("");
     }
 }
 

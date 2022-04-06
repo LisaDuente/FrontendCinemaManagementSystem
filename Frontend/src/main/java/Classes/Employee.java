@@ -59,5 +59,18 @@ public class Employee {  // Toros
     public void setEmployeeEmail(String employeeEmail) {
         this.employeeEmail = employeeEmail;
     }
+
+    public void changeSpecialCharacters(){
+        if (this.employeeName.contains(" ")) {
+            this.employeeName = this.getEmployeeName().replace(" ","+");
+        }
+        if(this.employeeTel.contains(" ")){
+            this.employeeTel = this.employeeTel.replace(" ","+");
+        }
+        if(this.employeeEmail.contains("@")){
+            this.employeeEmail = this.employeeEmail.replace("@","%40");
+            this.employeeEmail = this.employeeEmail.replace(".","%2E");
+        }
+    }
 }
 
