@@ -428,7 +428,7 @@ public class ConnectionManager {
 
             int status = connection.getResponseCode();
             System.out.println(status);
-          
+
             if (status < 300) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
