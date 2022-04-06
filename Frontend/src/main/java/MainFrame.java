@@ -47,13 +47,7 @@ public class MainFrame extends JFrame {
 
 
         //INITIALIZE MOVIES
-        String movieListString = connect.sendUrlToDownloadAllMovies();
-        this.movieList.setMovieListFromBackend(gson.fromJson(movieListString, new TypeToken<ArrayList<JsonObject>>() {
-        }.getType()));
-        String mostRecentAsString = connect.sendUrlToDownloadMostRecentlyAddedMovie();
-        this.newestMovie = gson.fromJson(mostRecentAsString, Movie.class);
-        this.startPage.getMovieDesc().setText(this.newestMovie.getMovieDescription());
-        this.movieList.addPanels();
+       refresh();
 
 
         //ADD TO FRAME
@@ -90,6 +84,7 @@ public class MainFrame extends JFrame {
             this.startPage.setVisible(false);
             this.movieList.setVisible(true);
             this.backPanel.setVisible(true);
+            refresh();
 
         });
 
@@ -114,7 +109,7 @@ public class MainFrame extends JFrame {
             this.backPanel.setVisible(true);
         });
         //TODO: this should lead to the Bookingpage not to the receipt
-        this.movieDetails.getBook().addActionListener((e)->{
+            this.movieDetails.getBook().addActionListener((e)->{
             this.movieDetails.setVisible(false);
             this.receipt.setVisible(true);
         });
@@ -199,5 +194,16 @@ public class MainFrame extends JFrame {
             this.backPanel.setVisible(false);
             this.admin.setVisible(false);
         });
+    }
+
+    public void refresh(){
+        this.movieList.emptyList();
+        String movieListString = connect.sendUrlToDownloadAllMovies();
+        this.movieList.setMovieListFromBackend(gson.fromJson(movieListString, new TypeToken<ArrayList<JsonObject>>() {
+        }.getType()));
+        String mostRecentAsString = connect.sendUrlToDownloadMostRecentlyAddedMovie();
+        this.newestMovie = gson.fromJson(mostRecentAsString, Movie.class);
+        this.startPage.getMovieDesc().setText(this.newestMovie.getMovieDescription());
+        this.movieList.addPanels();
     }
 }
