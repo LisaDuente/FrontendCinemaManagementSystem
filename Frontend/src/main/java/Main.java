@@ -1,11 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
        /* Map<String,Object> movie1 = new HashMap<>();
         movie1.put("name", "The Batman");
         movie1.put("genre", "Action");
@@ -44,6 +47,16 @@ public class Main {
         test.setVisible(true);
 
         */
-        MainFrame frame = new MainFrame();
+
+       MainFrame frame = new MainFrame();
+
     }
+
+
+
+
+
+
 }
+
+

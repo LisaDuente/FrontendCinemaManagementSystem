@@ -1,6 +1,13 @@
 package Panels;
 
+import Classes.Employee;
+import Classes.Movie;
+
+import Classes.Salon;
+
+import Classes.MovieSchedule;
 import Classes.MovieScheduleView;
+
 import Functionality.ConnectionManager;
 import Functionality.UpdateManager;
 import Functionality.buttonMaker;
@@ -120,10 +127,22 @@ public class AdminPageMovieSchedule extends JPanel {
         this.update = new buttonMaker("Update",135,206,235,"/DontKnowYet");
 
         //TODO: Make these next two methods!
+
         this.enter.addActionListener((e -> {
-            String parameterString = "get everything from the textfields," +
-                    "clear Textfields if it worked out" +
-                    "send a request via connection Manager";
+            // Toros
+                String movieID = encodeToURL(this.movieID.getText());
+                String movieName = encodeToURL(this.movieName.getText());
+                String movieTime = encodeToURL(this.movieTime.getText());
+                String movieDate = encodeToURL(this.movieDate.getText());
+                String movieSalonID = encodeToURL(this.movieSalonID.getText());
+
+                String salonString = connect.sendURLToDownloadOneSalonByID(Integer.parseInt(movieSalonID));
+                Salon salon = gson.fromJson(salonString, Salon.class);
+
+                //Below row is NOT finished. We need to solve the problem with seatsData Array.
+                //connect.sendURLToCreateMovieSchedule(Integer.parseInt(movieSalonID), movieTime, movieDate, movieID, ???salon.getDefultSalonSeats());
+                fillList();
+                clearAllText();
         }));
 
         this.delete.addActionListener((e) -> {
@@ -196,20 +215,23 @@ public class AdminPageMovieSchedule extends JPanel {
 
      */
 
-    public void clearAllText(){
-        this.movieID.setText("");
-        this.movieName.setText("");
-        this.movieDate.setText("");
-        this.movieTime.setText("");
-        this.movieSalonID.setText("");
-    }
-
     public buttonMaker getBack() {
         return back;
     }
 
-    public String encodeToURL(String inputString) {
+
+    public void clearAllText(){
+        this.movieID.setText("");
+        this.movieName.setText("");
+        this.movieTime.setText("");
+        this.movieDate.setText("");
+        this.movieSalonID.setText("");
+    }
+
+    public static String encodeToURL(String inputString) {
         String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
         return encodedString;
     }
+
+
 }

@@ -9,6 +9,8 @@ import Classes.Employee;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 
 public class AdminPageAddEmployee extends JPanel {
@@ -114,9 +116,16 @@ public class AdminPageAddEmployee extends JPanel {
 
         //TODO: Make these next two methods!
         this.enter.addActionListener((e -> {
-            String parameterString = "get everything from the textfields," +
-                    "clear Textfields if it worked out" +
-                    "send a request via connection Manager";
+
+            // Toros
+            //String employeeID = encodeToURL(this.employeeID.getText());
+            String employeeName = encodeToURL(this.employeeName.getText());
+            String employeeTel = encodeToURL(this.employeeTel.getText());
+            String employeeMail = encodeToURL(this.employeeMail.getText());
+
+            connect.sendURLToInsertNewEmployee(employeeName, employeeTel, employeeMail);
+            fillList();
+            clearAllText();
         }));
 
         this.delete.addActionListener((e) -> {
@@ -192,6 +201,11 @@ public class AdminPageAddEmployee extends JPanel {
         this.employeeID.setText("");
         this.employeeName.setText("");
         this.employeeMail.setText("");
+    }
+
+    public String encodeToURL(String inputString) {
+        String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
+        return encodedString;
     }
 }
 
