@@ -266,13 +266,14 @@ public class ConnectionManager {
     public String sendURLToDownloadOneEmployeeByName(String employeeName) { // Toros
         String responseString = "";
         try {
-            URL url = new URL("http://localhost:8080/downloadOneMovie?employeeName=" + employeeName);
+            URL url = new URL("http://localhost:8080/downloadOneEmployeeByName?employeeName=" + employeeName);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setReadTimeout(5000);
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
+            System.out.println(status);
             if (status < 300){
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
@@ -357,12 +358,12 @@ public class ConnectionManager {
         return responseString;
     }
 
-    public String sendUrlToUpdateEmployee(Employee employee){ //LISA
+    public String sendUrlToUpdateEmployee(Employee employee) { //LISA
         String responseString = "";
 
         try {
-            URL url = new URL("http://localhost:8080/updateEmployee?id=" + employee.getEmployeeID()+"&name=" + employee.getEmployeeName()+
-                    "&tel=" + employee.getEmployeeTel()+ "&mail=" + employee.getEmployeeEmail());
+            URL url = new URL("http://localhost:8080/updateEmployee?id=" + employee.getEmployeeID() + "&name=" + employee.getEmployeeName() +
+                    "&tel=" + employee.getEmployeeTel() + "&mail=" + employee.getEmployeeEmail());
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
@@ -371,17 +372,18 @@ public class ConnectionManager {
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
-            if (status < 300){
+            if (status < 300) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
-                while ((line = reader.readLine()) != null){
-                return responseString = "movie" + employee.getEmployeeName() + " updated succesfully";
+                while ((line = reader.readLine()) != null) {
+                    return responseString = "movie" + employee.getEmployeeName() + " updated succesfully";
+                }
             }
+
+        }catch(IOException e){
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return responseString;
+            return responseString;
     }
 
 
@@ -428,7 +430,7 @@ public class ConnectionManager {
 
             int status = connection.getResponseCode();
             System.out.println(status);
-          
+
             if (status < 300) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
