@@ -137,7 +137,7 @@ public class AdminPageMovieSchedule extends JPanel {
 
         buttons.add(this.enter);
         buttons.add(this.delete);
-        buttons.add(this.update);
+        //buttons.add(this.update);
         buttons.add(this.back);
         buttons.setVisible(true);
 
@@ -152,12 +152,13 @@ public class AdminPageMovieSchedule extends JPanel {
 
     public void fillList(){
         this.model.clear();
-        //TODO: fill this list with the view of movieSchedule
-        String movieListAsSTring = connect.sendUrlToDownloadAllMovies();
-        Movie[] movies = gson.fromJson(movieListAsSTring, Movie[].class);
-        for(int i = 0; i<movies.length;i++){
+        //TODO: fill this list with the view of movieSchedule // RIGHT NOW ITS NOT THE VIEW BUT THE REAL MOVIE SCHEDULE
+        String movieScheduleString = connect.sendUrlToDownloadWholeMovieSchedule();
+        MovieSchedule[] schedule = gson.fromJson(movieScheduleString, MovieSchedule[].class);
+        for(int i = 0; i<schedule.length;i++){
             //only shows the name of the movie
-            this.model.add(i, String.valueOf(movies[i].getId())+","+movies[i].getName());
+            this.model.add(i, String.valueOf(schedule[i].getMovieId())+","+schedule[i].getSalonId()+","
+                    +schedule[i].getMovieTime()+","+schedule[i].getMovieTime());
         }
 
     }
