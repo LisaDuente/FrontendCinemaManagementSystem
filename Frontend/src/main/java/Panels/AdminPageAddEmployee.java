@@ -120,8 +120,11 @@ public class AdminPageAddEmployee extends JPanel {
         }));
 
         this.delete.addActionListener((e) -> {
-            //call the method to delete an employee from our database
-            //should also delete the employee from employee schedule!
+         String employeeToDelete =  this.list.getSelectedValue();
+         String[] temp = employeeToDelete.split(",");
+         connect.sendURLToDeleteEmployeeByID(Integer.parseInt(temp[0]));
+         fillList();
+
         });
 
         this.update.addActionListener((e)->{

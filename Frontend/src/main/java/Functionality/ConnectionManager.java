@@ -121,7 +121,6 @@ public class ConnectionManager {
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
-            System.out.println("delete movieschedule all parameters: "+status);
             if (status < 300){
                 return responseString = "movieSchedule sucessfully deleted";
             }
@@ -269,7 +268,9 @@ public class ConnectionManager {
     public String sendURLToDeleteEmployeeByID(int id) {
         String responseString = "";
         try {
-            URL url = new URL("http://localhost:8080/deleteEmployeeByID?employeeID=" + id);
+            URL url = new URL("http://localhost:8080/deleteEmployeeByID?employee_ID=" + id);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
             connection.setRequestMethod("DELETE");
             connection.setReadTimeout(5000);
             connection.setConnectTimeout(5000);

@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class AdminPageMovieSchedule extends JPanel {
     private UpdateManager updater;
@@ -128,8 +130,9 @@ public class AdminPageMovieSchedule extends JPanel {
             String movieScheduleSTring = this.list.getSelectedValue();
             String[] temp = movieScheduleSTring.split(",");
             //we can erase things with salon, date and time
-            //TODO: need to encode here so it runs with the connection
-            connect.sendUrlToDeleteMovieScheduleWithAllParameters(Integer.parseInt(temp[1]),temp[2],temp[3]);
+            String temp2 = encodeToURL(temp[2]);
+            String temp3 = encodeToURL(temp[3]);
+            connect.sendUrlToDeleteMovieScheduleWithAllParameters(Integer.parseInt(temp[1]),temp2,temp3);
             fillList();
         });
 
@@ -203,5 +206,10 @@ public class AdminPageMovieSchedule extends JPanel {
 
     public buttonMaker getBack() {
         return back;
+    }
+
+    public String encodeToURL(String inputString) {
+        String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
+        return encodedString;
     }
 }
