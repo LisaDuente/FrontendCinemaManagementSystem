@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLOutput;
 
 public class ConnectionManager {
     private HttpURLConnection connection;
@@ -333,7 +334,7 @@ public class ConnectionManager {
     public String sendURLToDownloadOneEmployeeByName(String employeeName) { // Toros
         String responseString = "";
         try {
-            URL url = new URL("http://localhost:8080/downloadOneMovie?employeeName=" + employeeName);
+            URL url = new URL("http://localhost:8080/downloadOneEmployeeByName?employeeName=" + employeeName);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setReadTimeout(5000);
@@ -428,12 +429,12 @@ public class ConnectionManager {
         // ---------------------------------- Employee WorkPlan ----------------------------------------
     }
 
-    public String sendUrlToUpdateEmployee(Employee employee){ //LISA
+    public String sendUrlToUpdateEmployee(Employee employee) { //LISA
         String responseString = "";
 
         try {
-            URL url = new URL("http://localhost:8080/updateEmployee?id=" + employee.getEmployeeID()+"&name=" + employee.getEmployeeName()+
-                    "&tel=" + employee.getEmployeeTel()+ "&mail=" + employee.getEmployeeEmail());
+            URL url = new URL("http://localhost:8080/updateEmployee?id=" + employee.getEmployeeID() + "&name=" + employee.getEmployeeName() +
+                    "&tel=" + employee.getEmployeeTel() + "&mail=" + employee.getEmployeeEmail());
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
@@ -442,17 +443,18 @@ public class ConnectionManager {
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
-            if (status < 300){
+            if (status < 300) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
-                while ((line = reader.readLine()) != null){
-                return responseString = "movie" + employee.getEmployeeName() + " updated succesfully";
+                while ((line = reader.readLine()) != null) {
+                    return responseString = "movie" + employee.getEmployeeName() + " updated succesfully";
+                }
             }
+
+        }catch(IOException e){
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return responseString;
+            return responseString;
     }
 
     // ---------------------------------- Employee ----------------------------------------
@@ -487,6 +489,33 @@ public class ConnectionManager {
         return responseString;
     }
 
+
+
+    public String sendUrlToCreateEmployeeSchedule(int employeeId, int taskId, int workstationId, String shift){//Igor
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/insertEmployeeSchedule?employeeId=" + employeeId + "&taskId=" + taskId + "&workstationId=" + workstationId + "&shift=" + shift);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+            connection.setDoOutput(true);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+
+            if (status < 300) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
 
 
     // Toros
@@ -534,7 +563,53 @@ public class ConnectionManager {
         }
         return responseString;
     }
-    // ---------------------------------- Salon ----------------------------------------
 
+
+    public String sendUrlToDownloadWholeMovieSchedule(){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadWholeMovieSchedule");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+    public String sendUrlToDownloadWholeMovieScheduleView(){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadWholeMovieScheduleView");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
 
 }

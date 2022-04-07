@@ -154,13 +154,13 @@ public class AdminPageAddEmployee extends JPanel {
     }
 
     public void fillList(){
-        //TODO: make the same thing with employee
         this.model.clear();
         String employeesListAsSTring = connect.sendUrlToDownloadAllEmployees();
         Employee[] employees = gson.fromJson(employeesListAsSTring, Employee[].class);
         for(int i = 0; i<employees.length;i++){
             //only shows the name and id of the employee
-            this.model.add(i, String.valueOf(employees[i].getEmployeeID())+","+employees[i].getEmployeeName());
+            this.model.add(i, String.valueOf(employees[i].getEmployeeID())+","+employees[i].getEmployeeName()+
+                    ","+employees[i].getEmployeeTel()+","+employees[i].getEmployeeEmail());
         }
 
     }

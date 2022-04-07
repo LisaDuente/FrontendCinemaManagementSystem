@@ -1,5 +1,6 @@
 package Panels;
 
+import Classes.Employee;
 import Classes.EmployeeWorkplan;
 import Classes.Movie;
 import Functionality.ConnectionManager;
@@ -124,6 +125,15 @@ public class AdminPageEmployeeSchedule extends JPanel {
         }));
 
         this.delete.addActionListener((e) -> {
+            String employeeString = this.list.getSelectedValue();
+            String[] temp = employeeString.split(",");
+            Employee employee = new Employee();
+            String downloadEmployee = connect.sendURLToDownloadOneEmployeeByName(temp[0]);
+            employee = gson.fromJson(downloadEmployee, Employee.class);
+            int employeeId = employee.getEmployeeID();
+
+            this.connect.sendUrlToDeleteEmployeeScheduleById(employeeId);
+            fillList();
             //call the method to delete a movie from our database
             //should also delete the movie in movie schedule!
         });

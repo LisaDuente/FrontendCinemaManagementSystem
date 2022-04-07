@@ -1,8 +1,15 @@
 package Panels;
 
+import Classes.Employee;
 import Classes.Movie;
+
 import Classes.Salon;
+
+import Classes.MovieSchedule;
+import Classes.MovieScheduleView;
+
 import Functionality.ConnectionManager;
+import Functionality.UpdateManager;
 import Functionality.buttonMaker;
 import com.google.gson.Gson;
 
@@ -12,6 +19,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class AdminPageMovieSchedule extends JPanel {
+    private UpdateManager updater;
     private ConnectionManager connect = new ConnectionManager();
     private Gson gson = new Gson();
     private JScrollPane scrollList;
@@ -95,7 +103,7 @@ public class AdminPageMovieSchedule extends JPanel {
         this.movieSalonID = new JTextField();
         this.movieSalonID.setFont(new Font("sanserif", Font.BOLD, 15));
 
-
+        //TODO: take away name?
         controlPanel.add(this.movieIdText);
         controlPanel.add(this.movieID);
         controlPanel.add(this.movieNameText);
@@ -148,7 +156,7 @@ public class AdminPageMovieSchedule extends JPanel {
 
         buttons.add(this.enter);
         buttons.add(this.delete);
-        buttons.add(this.update);
+        //buttons.add(this.update);
         buttons.add(this.back);
         buttons.setVisible(true);
 
@@ -163,14 +171,50 @@ public class AdminPageMovieSchedule extends JPanel {
 
     public void fillList(){
         this.model.clear();
-        //TODO: fill this list with the view of movieSchedule
-        String movieListAsSTring = connect.sendUrlToDownloadAllMovies();
-        Movie[] movies = gson.fromJson(movieListAsSTring, Movie[].class);
-        for(int i = 0; i<movies.length;i++){
+        String movieScheduleString = connect.sendUrlToDownloadWholeMovieScheduleView();
+        MovieScheduleView[] schedule = gson.fromJson(movieScheduleString, MovieScheduleView[].class);
+        for(int i = 0; i<schedule.length;i++){
             //only shows the name of the movie
-            this.model.add(i, String.valueOf(movies[i].getId())+","+movies[i].getName());
+            this.model.add(i, String.valueOf(schedule[i].getMovie())+","+schedule[i].getSalon()+","
+                    +schedule[i].getTime()+","+schedule[i].getDate());
         }
 
+    }
+
+    public void updateFunctionality(){
+        String input = "";
+        if (!this.movieID.getText().equals("")) {
+            input = this.movieIdText.getText()+this.movieID.getText()+",";
+        }
+        if (!this.movieName.getText().equals("")) {
+            input = input + this.movieNameText.getText()+this.movieName.getText()+",";
+        }
+        if (!this.movieTime.getText().equals("")) {
+            input = input + this.movieTimeText.getText()+this.movieTime.getText()+",";
+        }
+        if (!this.movieDate.getText().equals("")) {
+            input = input + this.movieDateText.getText()+this.movieDate.getText()+",";
+        }
+        if (!this.movieSalonID.getText().equals("")) {
+            input = input + this.movieSalonIDText.getText()+this.movieSalonID.getText()+",";
+        }
+
+
+        input =  input.replace(" ","+");
+        input = input.replace("@","%40");
+        input = input.replace(".","%2E");
+        MovieSchedule movieSchedule = this.updater.updateMovieSchedule(input);
+        //TODO: maybe add a method to look for special characters
+        //this.connect.sendUrlToUpdateMovieSchedule(employee);
+        fillList();
+    }
+
+    public void clearAllText(){
+        this.movieID.setText("");
+        this.movieName.setText("");
+        this.movieDate.setText("");
+        this.movieTime.setText("");
+        this.movieSalonID.setText("");
     }
 
     public buttonMaker getBack() {
