@@ -2,7 +2,6 @@ package Panels;
 
 import Classes.Employee;
 import Classes.EmployeeWorkplan;
-import Classes.Movie;
 import Functionality.ConnectionManager;
 import Functionality.buttonMaker;
 import com.google.gson.Gson;
@@ -144,7 +143,7 @@ public class AdminPageEmployeeSchedule extends JPanel {
 
         buttons.add(this.enter);
         buttons.add(this.delete);
-        buttons.add(this.update);
+        //buttons.add(this.update);
         buttons.add(this.back);
         buttons.setVisible(true);
 

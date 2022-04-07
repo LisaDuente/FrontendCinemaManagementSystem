@@ -2,10 +2,8 @@ package Functionality;
 
 import Classes.Employee;
 import Classes.Movie;
-import Classes.MovieSchedule;
 import com.google.gson.Gson;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 public class UpdateManager {
@@ -101,42 +99,5 @@ public class UpdateManager {
             employee = null;
         }
         return employee;
-    }
-
-    public MovieSchedule updateMovieSchedule(String parameterString){
-        MovieSchedule movieSchedule = new MovieSchedule();
-        String[] parameters = parameterString.split(",");
-        String[] checkID = parameters[0].split(":");
-
-        if(checkID[0].equals("ID")) {
-            if(Character.isDigit(checkID[1].charAt(0))){
-                //TODO: make the right movieSchedule request
-                String movieScheduleToUpdate = "RIGHT METHOD HERE";
-                movieSchedule = gson.fromJson(movieScheduleToUpdate, MovieSchedule.class);
-
-                for (int i = 1; i < parameters.length; i++) {
-                    String[] temp = parameters[i].split(":");
-                    switch (temp[0]) {
-                        case "Name":
-                            System.out.println(temp[1]);
-                            break;
-                        case "Time":
-                           movieSchedule.setMovieTime(temp[1]);
-                            break;
-                        case "Date":
-                            movieSchedule.setMovieDate(temp[1]);
-                            break;
-                        case "SalonID":
-                            movieSchedule.setSalonId(temp[1]);
-                            break;
-                    }
-                }
-            }else{
-                movieSchedule = null;
-            }
-        }else{
-            movieSchedule = null;
-        }
-        return movieSchedule;
     }
 }

@@ -1,8 +1,5 @@
 package Panels;
 
-import Classes.Employee;
-import Classes.Movie;
-import Classes.MovieSchedule;
 import Classes.MovieScheduleView;
 import Functionality.ConnectionManager;
 import Functionality.UpdateManager;
@@ -128,8 +125,12 @@ public class AdminPageMovieSchedule extends JPanel {
         }));
 
         this.delete.addActionListener((e) -> {
-            //call the method to delete a movie from our database
-            //should also delete the movie in movie schedule!
+            String movieScheduleSTring = this.list.getSelectedValue();
+            String[] temp = movieScheduleSTring.split(",");
+            //we can erase things with salon, date and time
+            //TODO: need to encode here so it runs with the connection
+            connect.sendUrlToDeleteMovieScheduleWithAllParameters(Integer.parseInt(temp[1]),temp[2],temp[3]);
+            fillList();
         });
 
         this.update.addActionListener((e)->{
@@ -163,7 +164,7 @@ public class AdminPageMovieSchedule extends JPanel {
 
     }
 
-    public void updateFunctionality(){
+    /*public void updateFunctionality(){
         String input = "";
         if (!this.movieID.getText().equals("")) {
             input = this.movieIdText.getText()+this.movieID.getText()+",";
@@ -186,10 +187,11 @@ public class AdminPageMovieSchedule extends JPanel {
         input = input.replace("@","%40");
         input = input.replace(".","%2E");
         MovieSchedule movieSchedule = this.updater.updateMovieSchedule(input);
-        //TODO: maybe add a method to look for special characters
         //this.connect.sendUrlToUpdateMovieSchedule(employee);
         fillList();
     }
+
+     */
 
     public void clearAllText(){
         this.movieID.setText("");

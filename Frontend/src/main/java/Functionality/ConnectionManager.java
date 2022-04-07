@@ -99,9 +99,31 @@ public class ConnectionManager {
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
-            System.out.println(status);
             if (status < 300){
                 return responseString = "movie" + id + " deleted succesfully";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return responseString;
+    }
+
+    public String sendUrlToDeleteMovieScheduleWithAllParameters(int salonID, String movieTime, String movieDate){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/deleteMovieAllParameters?salonID="+salonID+
+                    "&movieTime="+movieTime+"&movieDate="+movieDate);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("DELETE");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println("delete movieschedule all parameters: "+status);
+            if (status < 300){
+                return responseString = "movieSchedule sucessfully deleted";
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -489,29 +511,7 @@ public class ConnectionManager {
         }
         return responseString;
     }
-
-    public String sendUrlToDownloadWholeMovieSchedule(){
-        String responseString = "";
-        try {
-            URL url = new URL("http://localhost:8080/downloadWholeMovieSchedule");
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setReadTimeout(5000);
-            connection.setConnectTimeout(5000);
-
-            int status = connection.getResponseCode();
-            if (status < 300){
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line = "";
-                while ((line = reader.readLine()) != null){
-                    responseString = responseString + line;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return responseString;
-    }
+    
 
     public String sendUrlToDownloadWholeMovieScheduleView(){
         String responseString = "";
