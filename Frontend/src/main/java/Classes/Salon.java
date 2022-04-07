@@ -1,63 +1,72 @@
 package Classes;
 
-public class Salon { // Toros
-    private String salonID; // varchar(20) PK
-    private int cinemaID; // int UN
+import java.util.Arrays;
 
-    // TODO: make a smart function to compute nr of seats, salon rows, salon seats.
-    private int salonRows;
-    private String salonSeats;
+public class Salon { // Toros || Erkan
+    int salonId;
+    int cinemaId;
+    int salonRow;
+    int salonCol;
+    int[][]defultSalonSeats;
 
-    public Salon(){
-
+    public Salon(int salonId, int cinemaId, int row, int col) {
+        this.salonId = salonId;
+        this.cinemaId = cinemaId;
+        this.salonRow = row;
+        this.salonCol = col;
+        defultSalonSeats = new int[this.salonRow][this.salonCol];
     }
 
-    public Salon(String salonID, int cinemaID, int salonRows, String salonSeats) {
-        this.salonID = salonID;
-        this.cinemaID = cinemaID;
-        this.salonRows = salonRows;
-        this.salonSeats = salonSeats;
+    public Salon(){}
+
+    public int getSalonId() {
+        return salonId;
+    }
+
+    public void setSalonId(int salonId) {
+        this.salonId = salonId;
+    }
+
+    public int getCinemaId() {
+        return cinemaId;
+    }
+
+    public void setCinemaId(int cinemaId) {
+        this.cinemaId = cinemaId;
+    }
+
+    public int[][] getDefultSalonSeats() {
+        return defultSalonSeats;
+    }
+
+    public void setDefultSalonSeats(int[][] defultSalonSeats) {
+        this.defultSalonSeats = defultSalonSeats;
+    }
+
+    public int getSalonRow() {
+        return salonRow;
+    }
+
+    public void setSalonRow(int salonRow) {
+        this.salonRow = salonRow;
+    }
+
+    public int getSalonCol() {
+        return salonCol;
+    }
+
+    public void setSalonCol(int salonCol) {
+        this.salonCol = salonCol;
     }
 
     @Override
     public String toString() {
-        return "Classes.Salon{" +
-                "salonID='" + salonID + '\'' +
-                ", cinemaID=" + cinemaID +
-                ", salonRows=" + salonRows +
-                ", salonSeats='" + salonSeats + '\'' +
+        return "Salon{" +
+                "salonId=" + salonId +
+                ", cinemaId=" + cinemaId +
+                ", salonRow=" + salonRow +
+                ", salonCol=" + salonCol +
+                ", defultSalonSeats=" + Arrays.toString(defultSalonSeats) +
                 '}';
-    }
-
-    public String getSalonID() {
-        return salonID;
-    }
-
-    public void setSalonID(String salonID) {
-        this.salonID = salonID;
-    }
-
-    public int getCinemaID() {
-        return cinemaID;
-    }
-
-    public void setCinemaID(int cinemaID) {
-        this.cinemaID = cinemaID;
-    }
-
-    public int getSalonRows() {
-        return salonRows;
-    }
-
-    public void setSalonRows(int salonRows) {
-        this.salonRows = salonRows;
-    }
-
-    public String getSalonSeats() {
-        return salonSeats;
-    }
-
-    public void setSalonSeats(String salonSeats) {
-        this.salonSeats = salonSeats;
     }
 }
