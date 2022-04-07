@@ -379,12 +379,13 @@ public class ConnectionManager {
                     return responseString = "movie" + employee.getEmployeeName() + " updated succesfully";
                 }
             }
+
         }catch(IOException e){
                 e.printStackTrace();
             }
             return responseString;
-
     }
+
 
     // ---------------------------------- Salon ----------------------------------------
 
@@ -429,6 +430,7 @@ public class ConnectionManager {
 
             int status = connection.getResponseCode();
             System.out.println(status);
+
             if (status < 300) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
