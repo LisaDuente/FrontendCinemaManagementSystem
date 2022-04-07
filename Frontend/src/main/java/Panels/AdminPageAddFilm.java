@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class AdminPageAddFilm extends JPanel {
     private ConnectionManager connect = new ConnectionManager();
@@ -145,9 +148,17 @@ public class AdminPageAddFilm extends JPanel {
 
         //TODO: Make these next two methods!
         this.enter.addActionListener((e -> {
-            String parameterString = "get everything from the textfields," +
-                    "clear Textfields if it worked out" +
-                    "send a request via connection Manager";
+            // Toros
+            String name = encodeToURL(this.movieName.getText());
+            String genre = encodeToURL(this.genre.getText());
+            String duration = encodeToURL(this.duration.getText());
+            String shortDesc = encodeToURL(this.shortDesc.getText());
+            String longDesc = encodeToURL(this.movieDesc.getText());
+            String picturePath = encodeToURL(this.picturePath.getText());
+
+            connect.sendUrlToCreateMovie(name, genre, duration, shortDesc, longDesc, picturePath);
+            fillList();
+            clearAllText();
         }));
 
         this.delete.addActionListener((e) -> {
@@ -238,4 +249,37 @@ public class AdminPageAddFilm extends JPanel {
         this.picturePath.setText("");
         this.available.setText("");
     }
+
+    /*
+    public String encodeToURL(String inputString) throws UnsupportedEncodingException {
+        String encodedString = "";
+        URLEncoder.encode(encodedString, inputString);
+        return encodedString;
+    }
+    */
+
+    // String s = "gus fring";
+
+    // Lisa, Toros
+    // below method is replaced with encodeToURL()
+    public String changeSpecialCharactersToURLformat(String inputText){
+        if (inputText.contains(" ")) {
+            inputText = inputText.replace(" ","+");
+        }
+        if(inputText.contains("@")){
+            inputText = inputText.replace("@","%40");
+        }
+        if (inputText.contains(".")){
+            inputText = inputText.replace(".","%2E");
+        }
+        return inputText;
+    }
+
+    // Toros
+    public static String encodeToURL(String inputString) {
+        String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
+        return encodedString;
+    }
+
+
 }

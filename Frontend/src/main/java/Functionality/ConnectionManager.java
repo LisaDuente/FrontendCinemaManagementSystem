@@ -16,11 +16,12 @@ public class ConnectionManager {
     private Gson gson;
     //private String responseString = "";
 
+    // -------------------- MOVIE ------------------------
     //ERKAN
-    public String sendUrlToCreateMovie(String name, String genre, String duration, String desc, String shortdesc, String picpath){
+    public String sendUrlToCreateMovie(String name, String genre, String duration, String shortdesc, String desc, String picpath){
         String responseString = "";
         try {
-            URL url = new URL("http://localhost:8080/addMovie?name=" + name + "&genre=" + genre + "&duration=" + duration + "&movieDescription=" + desc + "&shortDescription=" + shortdesc + "&picPath=" + picpath);
+            URL url = new URL("http://localhost:8080/insertMovie?name=" + name + "&genre=" + genre + "&duration=" + duration + "&shortDescription=" + shortdesc + "&movieDescription=" + desc +  "&path=" + picpath);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setReadTimeout(5000);
@@ -28,6 +29,7 @@ public class ConnectionManager {
             connection.setDoOutput(true);
 
             int status = connection.getResponseCode();
+            System.out.println(status);
             if (status < 300){
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
@@ -110,27 +112,6 @@ public class ConnectionManager {
         return responseString;
     }
 
-    public String sendUrlToDeleteEmployeeScheduleById(int employeeId){//Igor
-        String responseString = "";
-        try {
-            URL url = new URL("http://localhost:8080/deleteEmployeeScheduleById?employeeId=" + employeeId);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setReadTimeout(5000);
-            connection.setConnectTimeout(5000);
-
-            int status = connection.getResponseCode();
-            System.out.println(status);
-            if (status < 300){
-              return responseString = "employeeSchedule" + employeeId + " deleted succesfully";
-              }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return responseString;
-    }
-
     public String sendUrlToUpdateMovie(Movie movie){
         String responseString = "";
         try {
@@ -178,6 +159,90 @@ public class ConnectionManager {
         }
         return responseString;
     }
+
+    // ---------------------------- MOVIE ----------------------------------
+
+    // ---------------------------------- Movie Schedule ----------------------------------------
+    // Toros
+    public String sendURLToCreateMovieSchedule(int salonId, String movieTime, String movieDate, String movieId, String seatsData){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/insertMovieSchedule?salonId=" + salonId + "&movieTime=" + movieTime + "&movieDate=" + movieDate +"&movieId=" + movieId + "&seatsData=" + seatsData);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+            connection.setDoOutput(true);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+
+    // ---------------------------------- Movie Schedule ----------------------------------------
+
+    // ---------------------------- EMPLOYEE SCHEDULE ----------------------------------
+
+    public String sendUrlToDeleteEmployeeScheduleById(int employeeId){//Igor
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/deleteEmployeeScheduleById?employeeId=" + employeeId);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+              return responseString = "employeeSchedule" + employeeId + " deleted succesfully";
+              }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return responseString;
+    }
+
+
+    public String sendUrlToCreateEmployeeSchedule(int employeeId, int taskId, int workstationId, String shift){//Igor
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/insertEmployeeSchedule?employeeId=" + employeeId + "&taskId=" + taskId + "&workstationId=" + workstationId + "&shift=" + shift);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+            connection.setDoOutput(true);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+
+            if (status < 300) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+    // ----------------------------------- GET REQUEST -------------------------------------------
     //LISA
     public String sendGetRequest(String request){
         String line = "";
@@ -208,6 +273,8 @@ public class ConnectionManager {
         return response;
     }
 
+    // ----------------------------------- GET REQUEST -------------------------------------------
+
     // ------------------------------------------- Employee --------------------------------------------------------
 
     // for reference:
@@ -221,7 +288,7 @@ public class ConnectionManager {
         String responseString = "";
         try {
             // employeeID is auto-incremented so maybe no input or input null ??
-            URL url = new URL("http://localhost:8080/insertNewEmployee?employeeName=" + employeeName + "&employeeTel=" + employeeTel + "&employeeEmail=" + employeeEmail);
+            URL url = new URL("http://localhost:8080/insertNewEmployee?employee_name=" + employeeName + "&employee_tel=" + employeeTel + "&employee_email=" + employeeEmail);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST"); // Or connection.setRequestMethod("GET"); ?? If so change to @PostMapping in employeeController class
             connection.setReadTimeout(5000);
@@ -334,6 +401,8 @@ public class ConnectionManager {
         return responseString;
     }
 
+    // ---------------------------------- Employee WorkPlan ----------------------------------------
+
 
     public String sendUrlToDownloadEmployeeWorkplan(){ //Igor
         String responseString = "";
@@ -356,6 +425,8 @@ public class ConnectionManager {
             e.printStackTrace();
         }
         return responseString;
+
+        // ---------------------------------- Employee WorkPlan ----------------------------------------
     }
 
     public String sendUrlToUpdateEmployee(Employee employee) { //LISA
@@ -386,6 +457,7 @@ public class ConnectionManager {
             return responseString;
     }
 
+    // ---------------------------------- Employee ----------------------------------------
 
     // ---------------------------------- Salon ----------------------------------------
 
@@ -418,6 +490,7 @@ public class ConnectionManager {
     }
 
 
+
     public String sendUrlToCreateEmployeeSchedule(int employeeId, int taskId, int workstationId, String shift){//Igor
         String responseString = "";
         try {
@@ -443,6 +516,7 @@ public class ConnectionManager {
         }
         return responseString;
     }
+
 
     // Toros
     // Not tested
@@ -490,6 +564,7 @@ public class ConnectionManager {
         return responseString;
     }
 
+
     public String sendUrlToDownloadWholeMovieSchedule(){
         String responseString = "";
         try {
@@ -536,4 +611,5 @@ public class ConnectionManager {
         }
         return responseString;
     }
+
 }

@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class AdminPageEmployeeSchedule extends JPanel {
@@ -171,4 +173,10 @@ public class AdminPageEmployeeSchedule extends JPanel {
     public buttonMaker getBack() {
         return back;
     }
+
+    public static String encodeToURL(String inputString) {
+        String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
+        return encodedString;
+    }
+
 }
