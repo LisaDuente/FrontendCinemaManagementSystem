@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLOutput;
 
 public class ConnectionManager {
     private HttpURLConnection connection;
@@ -273,7 +274,6 @@ public class ConnectionManager {
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
-            System.out.println(status);
             if (status < 300){
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
@@ -500,6 +500,30 @@ public class ConnectionManager {
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+    public String sendUrlToDownloadWholeMovieScheduleView(){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadWholeMovieScheduleView");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
             if (status < 300){
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";

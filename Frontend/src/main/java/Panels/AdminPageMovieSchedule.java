@@ -3,6 +3,7 @@ package Panels;
 import Classes.Employee;
 import Classes.Movie;
 import Classes.MovieSchedule;
+import Classes.MovieScheduleView;
 import Functionality.ConnectionManager;
 import Functionality.UpdateManager;
 import Functionality.buttonMaker;
@@ -152,13 +153,12 @@ public class AdminPageMovieSchedule extends JPanel {
 
     public void fillList(){
         this.model.clear();
-        //TODO: fill this list with the view of movieSchedule // RIGHT NOW ITS NOT THE VIEW BUT THE REAL MOVIE SCHEDULE
-        String movieScheduleString = connect.sendUrlToDownloadWholeMovieSchedule();
-        MovieSchedule[] schedule = gson.fromJson(movieScheduleString, MovieSchedule[].class);
+        String movieScheduleString = connect.sendUrlToDownloadWholeMovieScheduleView();
+        MovieScheduleView[] schedule = gson.fromJson(movieScheduleString, MovieScheduleView[].class);
         for(int i = 0; i<schedule.length;i++){
             //only shows the name of the movie
-            this.model.add(i, String.valueOf(schedule[i].getMovieId())+","+schedule[i].getSalonId()+","
-                    +schedule[i].getMovieTime()+","+schedule[i].getMovieTime());
+            this.model.add(i, String.valueOf(schedule[i].getMovie())+","+schedule[i].getSalon()+","
+                    +schedule[i].getTime()+","+schedule[i].getDate());
         }
 
     }
