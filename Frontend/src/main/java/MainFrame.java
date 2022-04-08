@@ -5,8 +5,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainFrame extends JFrame {
@@ -23,7 +27,6 @@ public class MainFrame extends JFrame {
     AdminPageEmployeeSchedule employeeSchedule;
     Gson gson;
     Movie newestMovie;
-    //ArrayList<Classes.Movie> movieArrayList;
 
     public MainFrame() {
         //DEFINE FRAME
@@ -211,6 +214,16 @@ public class MainFrame extends JFrame {
         String mostRecentAsString = connect.sendUrlToDownloadMostRecentlyAddedMovie();
         this.newestMovie = gson.fromJson(mostRecentAsString, Movie.class);
         this.startPage.getMovieDesc().setText(this.newestMovie.getMovieDescription());
+        try {
+            URL pictureMostRecent = new URL(newestMovie.getPicturePath());
+            Image image = ImageIO.read(pictureMostRecent);
+            image = image.getScaledInstance(this.startPage.getMoviePicture().getWidth(),
+                    this.startPage.getMoviePicture().getHeight(),
+                    Image.SCALE_DEFAULT);
+            this.startPage.getMoviePicture().setIcon(new ImageIcon(image));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.movieList.addPanels();
     }
 }
