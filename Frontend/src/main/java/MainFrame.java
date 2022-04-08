@@ -84,7 +84,6 @@ public class MainFrame extends JFrame {
             this.startPage.setVisible(false);
             this.movieList.setVisible(true);
             this.backPanel.setVisible(true);
-            refresh();
 
         });
 
@@ -193,6 +192,14 @@ public class MainFrame extends JFrame {
             this.movieList.setVisible(false);
             this.backPanel.setVisible(false);
             this.admin.setVisible(false);
+            refresh();
+            if(this.admin.getMovie().isEnabled()){
+                this.admin.getMovieSchedule().setEnabled(false);
+                this.admin.getStaffSchedule().setEnabled(false);
+                this.admin.getMovie().setEnabled(false);
+                this.admin.getStaff().setEnabled(false);
+
+            }
         });
     }
 

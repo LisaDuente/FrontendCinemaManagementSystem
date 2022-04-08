@@ -151,19 +151,6 @@ public class startPagePanel extends JPanel {
         return logo;
     } //LOGO
 
-    /*
-    public static void main(String[] args) {
-        JFrame test = new JFrame("test");
-        test.setSize(1000,800);
-        test.setLayout(new BorderLayout());
-        Panels.startPagePanel Panels.startPagePanel = new Panels.startPagePanel();
-        test.add(Panels.startPagePanel, BorderLayout.CENTER);
-        test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        test.setVisible(true);
-    }
-
-     */
 
     public buttonMaker getBook() {
         return book;

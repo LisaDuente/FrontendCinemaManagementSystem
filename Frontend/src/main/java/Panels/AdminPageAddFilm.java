@@ -250,30 +250,6 @@ public class AdminPageAddFilm extends JPanel {
         this.available.setText("");
     }
 
-    /*
-    public String encodeToURL(String inputString) throws UnsupportedEncodingException {
-        String encodedString = "";
-        URLEncoder.encode(encodedString, inputString);
-        return encodedString;
-    }
-    */
-
-    // String s = "gus fring";
-
-    // Lisa, Toros
-    // below method is replaced with encodeToURL()
-    public String changeSpecialCharactersToURLformat(String inputText){
-        if (inputText.contains(" ")) {
-            inputText = inputText.replace(" ","+");
-        }
-        if(inputText.contains("@")){
-            inputText = inputText.replace("@","%40");
-        }
-        if (inputText.contains(".")){
-            inputText = inputText.replace(".","%2E");
-        }
-        return inputText;
-    }
 
     // Toros
     public static String encodeToURL(String inputString) {

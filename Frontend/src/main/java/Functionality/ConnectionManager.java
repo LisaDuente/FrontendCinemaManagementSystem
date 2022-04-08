@@ -13,8 +13,6 @@ import java.sql.SQLOutput;
 
 public class ConnectionManager {
     private HttpURLConnection connection;
-    private Gson gson;
-    //private String responseString = "";
 
     // -------------------- MOVIE ------------------------
     //ERKAN
@@ -111,6 +109,7 @@ public class ConnectionManager {
         return responseString;
     }
 
+    //Lisa
     public String sendUrlToDeleteMovieScheduleWithAllParameters(int salonID, String movieTime, String movieDate){
         String responseString = "";
         try {
@@ -133,6 +132,7 @@ public class ConnectionManager {
         return responseString;
     }
 
+    //Lisa
     public String sendUrlToUpdateMovie(Movie movie){
         String responseString = "";
         try {
@@ -158,6 +158,7 @@ public class ConnectionManager {
         return responseString;
     }
 
+    //Erkan
     public String sendUrlToDownloadMostRecentlyAddedMovie(){
         String responseString = "";
         try {
@@ -215,7 +216,8 @@ public class ConnectionManager {
 
     // ---------------------------- EMPLOYEE SCHEDULE ----------------------------------
 
-    public String sendUrlToDeleteEmployeeScheduleById(int employeeId){//Igor
+    //Igor
+    public String sendUrlToDeleteEmployeeScheduleById(int employeeId){
         String responseString = "";
         try {
             URL url = new URL("http://localhost:8080/deleteEmployeeScheduleById?employeeId=" + employeeId);
@@ -236,8 +238,8 @@ public class ConnectionManager {
         return responseString;
     }
 
-
-    public String sendUrlToCreateEmployeeSchedule(int employeeId, int taskId, int workstationId, String shift){//Igor
+    //Igor
+    public String sendUrlToCreateEmployeeSchedule(int employeeId, int taskId, int workstationId, String shift){
         String responseString = "";
         try {
             URL url = new URL("http://localhost:8080/insertEmployeeSchedule?employeeId=" + employeeId + "&taskId=" + taskId + "&workstationId=" + workstationId + "&shift=" + shift);
@@ -294,17 +296,11 @@ public class ConnectionManager {
         return response;
     }
 
-    // ----------------------------------- GET REQUEST -------------------------------------------
 
     // ------------------------------------------- Employee --------------------------------------------------------
 
-    // for reference:
-    // int employeeID, String employeeName, String employeeTel, String employeeEmail
 
     // Toros
-    // Not working correctly yet
-    // error: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8080 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
-    // employeeID is auto-incremented so maybe no input or input null ??
     public String sendURLToInsertNewEmployee (String employeeName, String employeeTel, String employeeEmail) {
         String responseString = "";
         try {
@@ -331,7 +327,6 @@ public class ConnectionManager {
     }
 
     // Toros
-    // Not tested
     public String sendURLToDeleteEmployeeByID(int id) {
         String responseString = "";
         try {
@@ -353,7 +348,6 @@ public class ConnectionManager {
         return responseString;
     }
 
-    // Not tested
     public String sendURLToDownloadOneEmployeeByName(String employeeName) { // Toros
         String responseString = "";
         try {
@@ -377,7 +371,6 @@ public class ConnectionManager {
         return responseString;
     }
 
-    // Not tested
     public String sendURLToDownloadOneEmployeeByID(int employeeID) { // Toros
         String responseString = "";
         try {
@@ -452,6 +445,7 @@ public class ConnectionManager {
         // ---------------------------------- Employee WorkPlan ----------------------------------------
     }
 
+    //Lisa
     public String sendUrlToUpdateEmployee(Employee employee) { //LISA
         String responseString = "";
 
@@ -479,8 +473,6 @@ public class ConnectionManager {
             }
             return responseString;
     }
-
-    // ---------------------------------- Employee ----------------------------------------
 
     // ---------------------------------- Salon ----------------------------------------
 
@@ -512,7 +504,6 @@ public class ConnectionManager {
         return responseString;
     }
 
-
     // Toros
     // Not tested
     public String sendURLToDeleteSalonByID(int SalonID) {
@@ -535,7 +526,6 @@ public class ConnectionManager {
     }
 
     // Toros
-    // Not tested
     public String sendURLToDownloadOneSalonByID(int salonID) { // Toros
         String responseString = "";
         try {
@@ -559,7 +549,7 @@ public class ConnectionManager {
         return responseString;
     }
 
-
+    //Lisa
     public String sendUrlToDownloadWholeMovieSchedule(){
         String responseString = "";
         try {
@@ -583,6 +573,7 @@ public class ConnectionManager {
         return responseString;
     }
 
+    //Lisa
     public String sendUrlToDownloadWholeMovieScheduleView(){
         String responseString = "";
         try {

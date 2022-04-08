@@ -48,12 +48,13 @@ public class AdminPage extends JPanel {
 
     //ACTION LISTENERS
         this.enter.addActionListener((e)->{
-            if(Arrays.equals(passwordText.getPassword(), this.password)){
+            if(Arrays.equals(this.passwordText.getPassword(), this.password)){
                 this.movie.setEnabled(true);
                 this.staff.setEnabled(true);
                 this.movieSchedule.setEnabled(true);
                 this.staffSchedule.setEnabled(true);
             }
+            this.passwordText.setText("");
         });
 
     //INITIALIZE PASSWORD
