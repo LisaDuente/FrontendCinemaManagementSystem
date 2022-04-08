@@ -3,8 +3,13 @@ package Panels;
 import Classes.Movie;
 import Functionality.buttonMaker;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MovieDetailsPanel extends JPanel {
     private Movie currentMovie;
@@ -23,6 +28,8 @@ public class MovieDetailsPanel extends JPanel {
 
     private Color colorBack = new Color(81, 24, 69);
     private Color colorMiddle = new Color(199, 0, 57);
+
+    private URL url;
 
 
     public MovieDetailsPanel(){
@@ -112,6 +119,15 @@ public class MovieDetailsPanel extends JPanel {
         this.genre.setText("Genre: "+this.currentMovie.getGenre());
         this.duration.setText("Duration: "+this.currentMovie.getDuration());
         this.description.setText(this.currentMovie.getMovieDescription());
+        try {
+            this.url = new URL(this.currentMovie.getPicturePath());
+            Image image = ImageIO.read(this.url);
+            image = image.getScaledInstance(this.image.getWidth(),this.image.getHeight(),Image.SCALE_DEFAULT);
+            this.imageIcon.setImage(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public buttonMaker getBook() {
