@@ -173,7 +173,7 @@ public class AdminPageEmployeeSchedule extends JPanel {
         return back;
     }
 
-    public static String encodeToURL(String inputString) {
+    public String encodeToURL(String inputString) {
         String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
         return encodedString;
     }
