@@ -207,10 +207,14 @@ public class MainFrame extends JFrame {
     }
 
     public void refresh(){
+        //updating the movie List in FilmListScrollPanel
         this.movieList.emptyList();
         String movieListString = connect.sendUrlToDownloadAllMovies();
         this.movieList.setMovieListFromBackend(gson.fromJson(movieListString, new TypeToken<ArrayList<JsonObject>>() {
         }.getType()));
+        this.movieList.addPanels();
+
+        //updating most recent on startPage
         String mostRecentAsString = connect.sendUrlToDownloadMostRecentlyAddedMovie();
         this.newestMovie = gson.fromJson(mostRecentAsString, Movie.class);
         this.startPage.getMovieDesc().setText(this.newestMovie.getMovieDescription());
@@ -224,6 +228,5 @@ public class MainFrame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.movieList.addPanels();
     }
 }
