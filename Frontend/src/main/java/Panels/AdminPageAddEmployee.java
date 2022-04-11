@@ -124,10 +124,13 @@ public class AdminPageAddEmployee extends JPanel {
 
         this.delete.addActionListener((e) -> {
             String employeeToDelete = this.list.getSelectedValue();
-            String[] temp = employeeToDelete.split(",");
-            connect.sendURLToDeleteEmployeeByID(Integer.parseInt(temp[0]));
-            fillList();
-
+            if(this.list.getSelectedValue() == null){
+                JOptionPane.showMessageDialog(null, "Please, delete something");
+            } else {
+                String[] temp = employeeToDelete.split(",");
+                connect.sendURLToDeleteEmployeeByID(Integer.parseInt(temp[0]));
+                fillList();
+            }
         });
 
         this.update.addActionListener((e)->{
