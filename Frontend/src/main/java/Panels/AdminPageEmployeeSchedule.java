@@ -123,14 +123,18 @@ public class AdminPageEmployeeSchedule extends JPanel {
 
         this.delete.addActionListener((e) -> {
             String employeeString = this.list.getSelectedValue();
-            String[] temp = employeeString.split(",");
-            Employee employee;
-            String downloadEmployee = connect.sendURLToDownloadOneEmployeeByName(temp[0]);
-            employee = gson.fromJson(downloadEmployee, Employee.class);
-            int employeeId = employee.getEmployeeID();
+            if(this.list.getSelectedValue() == null){
+                JOptionPane.showMessageDialog(null, "Please, delete something");
+            } else {
+                String[] temp = employeeString.split(",");
+                Employee employee;
+                String downloadEmployee = connect.sendURLToDownloadOneEmployeeByName(temp[0]);
+                employee = gson.fromJson(downloadEmployee, Employee.class);
+                int employeeId = employee.getEmployeeID();
 
-            this.connect.sendUrlToDeleteEmployeeScheduleById(employeeId);
-            fillList();
+                this.connect.sendUrlToDeleteEmployeeScheduleById(employeeId);
+                fillList();
+            }
             //call the method to delete a movie from our database
             //should also delete the movie in movie schedule!
         });
@@ -138,8 +142,6 @@ public class AdminPageEmployeeSchedule extends JPanel {
         this.update.addActionListener((e)->{
             //get the strings from the specific fields, feed them to the backend
         });
-
-
 
         buttons.add(this.enter);
         buttons.add(this.delete);
@@ -182,6 +184,9 @@ public class AdminPageEmployeeSchedule extends JPanel {
 
             JOptionPane.showMessageDialog(null, "Sucess!");
         }
+    }
+
+    public void errorMessageDeleteButton(){
     }
 
     public static String encodeToURL(String inputString) {
