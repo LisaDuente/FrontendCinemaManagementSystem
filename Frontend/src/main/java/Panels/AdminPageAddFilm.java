@@ -149,16 +149,7 @@ public class AdminPageAddFilm extends JPanel {
         //TODO: Make these next two methods!
         this.enter.addActionListener((e -> {
             // Toros
-            String name = encodeToURL(this.movieName.getText());
-            String genre = encodeToURL(this.genre.getText());
-            String duration = encodeToURL(this.duration.getText());
-            String shortDesc = encodeToURL(this.shortDesc.getText());
-            String longDesc = encodeToURL(this.movieDesc.getText());
-            String picturePath = encodeToURL(this.picturePath.getText());
-
-            connect.sendUrlToCreateMovie(name, genre, duration, shortDesc, longDesc, picturePath);
-            fillList();
-            clearAllText();
+            errorMessageAddButton();
         }));
 
         this.delete.addActionListener((e) -> {
@@ -198,6 +189,23 @@ public class AdminPageAddFilm extends JPanel {
         for(int i = 0; i<movies.length;i++){
             //only shows the name of the movie
            this.model.add(i, String.valueOf(movies[i].getId()+","+movies[i].getName())+","+movies[i].getGenre()+","+movies[i].getDuration());
+        }
+    }
+
+    public void errorMessageAddButton(){
+        if(movieName.getText().equals("") && genre.getText().equals("") && duration.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Please, enter name, genre and duration!");
+        } else {
+            String name = encodeToURL(this.movieName.getText());
+            String genre = encodeToURL(this.genre.getText());
+            String duration = encodeToURL(this.duration.getText());
+            String shortDesc = encodeToURL(this.shortDesc.getText());
+            String longDesc = encodeToURL(this.movieDesc.getText());
+            String picturePath = encodeToURL(this.picturePath.getText());
+
+            connect.sendUrlToCreateMovie(name, genre, duration, shortDesc, longDesc, picturePath);
+            fillList();
+            clearAllText();
         }
     }
 
