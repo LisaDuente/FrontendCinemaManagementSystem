@@ -1,20 +1,26 @@
 package Classes;
 
+import com.google.gson.Gson;
+
 public class MovieSchedule {
 
     private String salonId;
     private String movieTime;
     private String movieDate;
     private int movieId;
+    private int [][]seatOfArrayForMovie;
     private boolean isAvailable;
+
 
     public MovieSchedule() { this.isAvailable = true; }
 
-    public MovieSchedule(String salonId, String movieTime, String movieDate, int movieId, boolean isAvailable) {
+    public MovieSchedule(String salonId, String movieTime, String movieDate, int movieId, String array, boolean isAvailable) {
+        Gson gson = new Gson();
         this.salonId = salonId;
         this.movieTime = movieTime;
         this.movieDate = movieDate;
         this.movieId = movieId;
+        this.seatOfArrayForMovie = gson.fromJson(array, int[][].class);
         this.isAvailable = isAvailable;
     }
 
@@ -68,6 +74,15 @@ public class MovieSchedule {
     public void setIsAvailable() {
         this.isAvailable = isAvailable;
     }
+
+    public void setSeatOfArrayForMovie(int[][] seatOfArrayForMovie) {
+        this.seatOfArrayForMovie = seatOfArrayForMovie;
+    }
+
+    public int[][] getSeatOfArrayForMovie() {
+        return seatOfArrayForMovie;
+    }
+
 
 }
 

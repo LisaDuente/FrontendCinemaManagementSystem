@@ -211,6 +211,30 @@ public class ConnectionManager {
         return responseString;
     }
 
+    //Erkan
+    public String sendUrlToGetMovieSchedule(int salonID, int movieID, String time, String date){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadOneMovieSchedule?salonID=" + salonID + "&movieID=" + movieID + "&time=" + time + "&date=" + date);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("response:"+responseString);
+        return responseString;
+    }
 
     // ---------------------------------- Movie Schedule ----------------------------------------
 
@@ -549,6 +573,31 @@ public class ConnectionManager {
         return responseString;
     }
 
+    //Erkan
+    public String sendUrlToGetSalonById(int salonID, int cinemaID){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadOneSalon?salonID=" + salonID +"&cinemaID=" + cinemaID);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("response:"+responseString);
+        return responseString;
+    }
+
     //Lisa
     public String sendUrlToDownloadWholeMovieSchedule(){
         String responseString = "";
@@ -596,6 +645,32 @@ public class ConnectionManager {
             e.printStackTrace();
         }
         return responseString;
+    }
+
+    //Lisa
+    public String downloadMovieScheduleViewOneMovie(String movieName){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/getAllInfoOneMovie?movieName="+movieName);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+
     }
 
 }

@@ -1,7 +1,11 @@
 package Panels;
 
 import Classes.Movie;
+import Classes.MovieSchedule;
+import Classes.MovieScheduleView;
+import Functionality.ConnectionManager;
 import Functionality.buttonMaker;
+import com.google.gson.Gson;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class MovieDetailsPanel extends JPanel {
     private Movie currentMovie;
@@ -20,6 +26,10 @@ public class MovieDetailsPanel extends JPanel {
     private JLabel image;
 
     private JTextArea description;
+
+    private JScrollPane scrollList;
+    private JList<String> list;
+    private DefaultListModel<String> model;
 
     private buttonMaker book;
     private buttonMaker back;
@@ -39,6 +49,15 @@ public class MovieDetailsPanel extends JPanel {
         this.setBackground(colorBack);
 
         //INITIALIZE
+        this.model = new DefaultListModel<>();
+        this.list = new JList<>(model);
+        this.list.setFont(new Font("sanserif", Font.BOLD, 15));
+        this.list.setForeground(Color.white);
+        this.list.setBackground(colorMiddle);
+        this.scrollList = new JScrollPane(list);
+
+        this.scrollList.createHorizontalScrollBar();
+
         this.imageIcon = new ImageIcon("src/main/java/testbatman.png");
         this.title = new JLabel();
         this.duration = new JLabel();
@@ -54,6 +73,7 @@ public class MovieDetailsPanel extends JPanel {
         this.genre.setSize(100,25);
         this.description.setSize(200,200);
         this.image.setSize(300,300);
+        this.scrollList.setSize(200,400);
 
         //COLORS AND FONTS
         this.title.setFont(new Font("sanserif", Font.BOLD, 30));
@@ -88,6 +108,10 @@ public class MovieDetailsPanel extends JPanel {
         westPanel.setBackground(colorBack);
         westPanel.add(this.image);
 
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(this.description, BorderLayout.CENTER);
+        centerPanel.add(this.scrollList, BorderLayout.SOUTH);
+
         JPanel southPanel = new JPanel(new FlowLayout());
         southPanel.setPreferredSize(new Dimension(1000,100));
         southPanel.setBackground(colorBack);
@@ -101,7 +125,7 @@ public class MovieDetailsPanel extends JPanel {
 
         //ADD ON PANEL
         this.add(northPanel,BorderLayout.NORTH);
-        this.add(this.description,BorderLayout.CENTER);
+        this.add(centerPanel,BorderLayout.CENTER);
         this.add(westPanel,BorderLayout.WEST);
         this.add(southPanel,BorderLayout.SOUTH);
         this.add(eastPanel,BorderLayout.EAST);
@@ -115,10 +139,12 @@ public class MovieDetailsPanel extends JPanel {
 
     //TODO: set the imageIcon to a new source
     public void updatePanel(){
+        //set current movie information
         this.title.setText(this.currentMovie.getName());
         this.genre.setText("Genre: "+this.currentMovie.getGenre());
         this.duration.setText("Duration: "+this.currentMovie.getDuration());
         this.description.setText(this.currentMovie.getMovieDescription());
+        //set the right picture
         try {
             this.url = new URL(this.currentMovie.getPicturePath());
             Image image = ImageIO.read(this.url);
@@ -127,7 +153,23 @@ public class MovieDetailsPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //fill in the right lists
+        ConnectionManager connect = new ConnectionManager();
+        Gson gson = new Gson();
+        String schedulesAsString = connect.downloadMovieScheduleViewOneMovie(encodeToURL(this.currentMovie.getName()));
+        MovieScheduleView[] movieSchedules = gson.fromJson(schedulesAsString,MovieScheduleView[].class);
+        this.model.clear();
+        for(int i = 0; i<movieSchedules.length;i++){
+            //only shows the name and id of the employee
+            this.model.add(i, movieSchedules[i].getMovie()+","+movieSchedules[i].getTime()+
+                    ","+movieSchedules[i].getDate()+","+movieSchedules[i].getSalon());
+        }
 
+    }
+
+    public String encodeToURL(String inputString) {
+        String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
+        return encodedString;
     }
 
     public buttonMaker getBook() {
@@ -136,5 +178,13 @@ public class MovieDetailsPanel extends JPanel {
 
     public buttonMaker getBack() {
         return back;
+    }
+
+    public JList<String> getList() {
+        return list;
+    }
+
+    public Movie getCurrentMovie() {
+        return currentMovie;
     }
 }
