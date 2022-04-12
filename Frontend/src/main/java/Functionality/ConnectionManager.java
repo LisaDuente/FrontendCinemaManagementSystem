@@ -550,16 +550,17 @@ public class ConnectionManager {
     }
 
     // Toros
-    public String sendURLToDownloadOneSalonByID(int salonID) { // Toros
+    public String sendURLToDownloadOneSalonByID(int salonID, int cinemaID) { // Toros
         String responseString = "";
         try {
-            URL url = new URL("http://localhost:8080/downloadOneSalonByID?salonID=" + salonID);
+            URL url = new URL("http://localhost:8080/downloadOneSalon?salonID=" + salonID + "&cinemaID=" + cinemaID);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setReadTimeout(5000);
             connection.setConnectTimeout(5000);
 
             int status = connection.getResponseCode();
+            System.out.println(status);
             if (status < 300){
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";

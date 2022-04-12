@@ -60,6 +60,7 @@ public class Employee {  // Toros
         this.employeeEmail = employeeEmail;
     }
 
+    // below method has been replaced by encodeToURL()
     public void changeSpecialCharacters(){
         if (this.employeeName.contains(" ")) {
             this.employeeName = this.getEmployeeName().replace(" ","+");

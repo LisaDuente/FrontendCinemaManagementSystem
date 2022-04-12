@@ -1,32 +1,41 @@
-package Test;
+import org.junit.jupiter.api.Test;
 
-import Panels.AdminPageAddFilm;
-
-import org.junit.jupiter.api.Assertions.*;
-
+// import static org.junit.jupiter.api.Assertions.*;
+// import org.junit.jupiter.api.Test;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+// import org.junit.jupiter.api.Assertions.*;
+// import static org.junit.jupiter.api.Assertions.*;
+// import Panels.AdminPageAddFilm;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-// Toros
-class AdminPageAddFilmTest {
 
-    @org.junit.jupiter.api.Test
+class AdminPageAddFilmTest05 {
+
+    @Test
     void fillList() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
+    void errorMessageAddButton() {
+    }
+
+    @Test
     void getBack() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void updateButtonFunctionality() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void clearAllText() {
     }
+
+    // @Test
+    // void encodeToURL() {
+    // }
 
     public String encodeToURL(String inputString) {
         String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
