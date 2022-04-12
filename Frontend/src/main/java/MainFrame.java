@@ -1,4 +1,6 @@
 import Classes.Movie;
+import Classes.MovieSchedule;
+import Classes.Salon;
 import Functionality.ConnectionManager;
 import Panels.*;
 import com.google.gson.Gson;
@@ -25,6 +27,7 @@ public class MainFrame extends JFrame {
     AdminPageAddEmployee employee;
     AdminPageMovieSchedule movieSchedule;
     AdminPageEmployeeSchedule employeeSchedule;
+    MovieBookingPage movieBookning;
     Gson gson;
     Movie newestMovie;
 
@@ -47,6 +50,7 @@ public class MainFrame extends JFrame {
         this.employee = new AdminPageAddEmployee();
         this.movieSchedule = new AdminPageMovieSchedule();
         this.employeeSchedule = new AdminPageEmployeeSchedule();
+        this.movieBookning = new MovieBookingPage();
 
 
         //INITIALIZE MOVIES
@@ -63,6 +67,7 @@ public class MainFrame extends JFrame {
         this.add(this.employee, BorderLayout.CENTER);
         this.add(this.movieSchedule, BorderLayout.CENTER);
         this.add(this.employeeSchedule, BorderLayout.CENTER);
+        this.add(this.movieBookning, BorderLayout.CENTER);
         this.add(this.startPage, BorderLayout.CENTER);
 
         //SET VISIBILITY
@@ -76,6 +81,7 @@ public class MainFrame extends JFrame {
         this.employee.setVisible(false);
         this.movieSchedule.setVisible(false);
         this.employeeSchedule.setVisible(false);
+        this.movieBookning.setVisible(false);
         this.setVisible(true);
 
         //ADD FUNCTIONALITY STARTPAGE
@@ -113,7 +119,31 @@ public class MainFrame extends JFrame {
         //TODO: this should lead to the Bookingpage not to the receipt
             this.movieDetails.getBook().addActionListener((e)->{
             this.movieDetails.setVisible(false);
-            this.receipt.setVisible(true);
+            //get the info from the list in movieDetails
+            String infoFromMovieSchedule = this.movieDetails.getList().getSelectedValue();
+            System.out.println(infoFromMovieSchedule);
+            String[] temp = infoFromMovieSchedule.split(",");
+            //set the movie to the current movie from movieDetails
+            this.movieBookning.setMovie(this.movieDetails.getCurrentMovie());
+            //download the salon for the booking page
+            String salonAsString = connect.sendUrlToGetSalonById(Integer.parseInt(temp[3]),1);
+            this.movieBookning.setSalon(gson.fromJson(salonAsString, Salon.class));
+            //download the right movieSchedule
+            String movieScheduleAsString = connect.sendUrlToGetMovieSchedule(Integer.parseInt(temp[3]),
+                    this.movieDetails.getCurrentMovie().getId(), temp[1], temp[2]);
+            this.movieBookning.setMovieSchedule(gson.fromJson(movieScheduleAsString, MovieSchedule.class));
+            this.movieBookning.setVisible(true);
+            JPanel footer = this.movieBookning.footerConfirmationPanel();
+            footer.setLayout(new FlowLayout());
+            footer.setVisible(false);
+            this.movieBookning.add(footer,BorderLayout.NORTH);
+
+        });
+
+        //ADD FUNCTIONALITY MOVIEBOOKING
+        this.movieBookning.getBackBtn().addActionListener((e)->{
+            this.movieBookning.setVisible(false);
+            this.movieDetails.setVisible(true);
         });
 
         //ADD FUNCTIONALITY RECEIPT
@@ -207,10 +237,14 @@ public class MainFrame extends JFrame {
     }
 
     public void refresh(){
+        //updating the movie List in FilmListScrollPanel
         this.movieList.emptyList();
         String movieListString = connect.sendUrlToDownloadAllMovies();
         this.movieList.setMovieListFromBackend(gson.fromJson(movieListString, new TypeToken<ArrayList<JsonObject>>() {
         }.getType()));
+        this.movieList.addPanels();
+
+        //updating most recent on startPage
         String mostRecentAsString = connect.sendUrlToDownloadMostRecentlyAddedMovie();
         this.newestMovie = gson.fromJson(mostRecentAsString, Movie.class);
         this.startPage.getMovieDesc().setText(this.newestMovie.getMovieDescription());
@@ -224,6 +258,5 @@ public class MainFrame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.movieList.addPanels();
     }
 }

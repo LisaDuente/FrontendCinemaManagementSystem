@@ -11,6 +11,7 @@ import java.awt.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class AdminPageEmployeeSchedule extends JPanel {
     private ConnectionManager connect = new ConnectionManager();
@@ -111,28 +112,29 @@ public class AdminPageEmployeeSchedule extends JPanel {
 
         //TODO: Make these next two methods!
         this.enter.addActionListener((e -> {
-
-            this.model.clear();
-            this.connect.sendUrlToCreateEmployeeSchedule(Integer.parseInt(employeeId.getText()), Integer.parseInt(taskId.getText()), Integer.parseInt(workstationId.getText()), shift.getText());
+            errorMessageAddButton();
             /*String parameterString = "get everything from the textfields," +
                     "clear Textfields if it worked out" +
                     "send a request via connection Manager";
 
              */
             //System.out.println(this.workstationId.getText());
-            fillList();
         }));
 
         this.delete.addActionListener((e) -> {
             String employeeString = this.list.getSelectedValue();
-            String[] temp = employeeString.split(",");
-            Employee employee = new Employee();
-            String downloadEmployee = connect.sendURLToDownloadOneEmployeeByName(temp[0]);
-            employee = gson.fromJson(downloadEmployee, Employee.class);
-            int employeeId = employee.getEmployeeID();
+            if(this.list.getSelectedValue() == null){
+                JOptionPane.showMessageDialog(null, "Please, delete something");
+            } else {
+                String[] temp = employeeString.split(",");
+                Employee employee;
+                String downloadEmployee = connect.sendURLToDownloadOneEmployeeByName(temp[0]);
+                employee = gson.fromJson(downloadEmployee, Employee.class);
+                int employeeId = employee.getEmployeeID();
 
-            this.connect.sendUrlToDeleteEmployeeScheduleById(employeeId);
-            fillList();
+                this.connect.sendUrlToDeleteEmployeeScheduleById(employeeId);
+                fillList();
+            }
             //call the method to delete a movie from our database
             //should also delete the movie in movie schedule!
         });
@@ -140,8 +142,6 @@ public class AdminPageEmployeeSchedule extends JPanel {
         this.update.addActionListener((e)->{
             //get the strings from the specific fields, feed them to the backend
         });
-
-
 
         buttons.add(this.enter);
         buttons.add(this.delete);
@@ -173,7 +173,23 @@ public class AdminPageEmployeeSchedule extends JPanel {
         return back;
     }
 
-    public String encodeToURL(String inputString) {
+    //Shows error message if you have empty textFields when adding employeeSchedule
+    public void errorMessageAddButton(){
+        if(employeeId.getText().equals("") && taskId.getText().equals("") && workstationId.getText().equals("") && shift.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please, don't leave textfield empty");
+        } else {
+            this.model.clear();
+            this.connect.sendUrlToCreateEmployeeSchedule(Integer.parseInt(employeeId.getText()), Integer.parseInt(taskId.getText()), Integer.parseInt(workstationId.getText()), shift.getText());
+            fillList();
+
+            JOptionPane.showMessageDialog(null, "Sucess!");
+        }
+    }
+
+    public void errorMessageDeleteButton(){
+    }
+
+    public static String encodeToURL(String inputString) {
         String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
         return encodedString;
     }

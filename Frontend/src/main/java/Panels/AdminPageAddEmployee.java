@@ -119,26 +119,22 @@ public class AdminPageAddEmployee extends JPanel {
 
             // Toros
             //String employeeID = encodeToURL(this.employeeID.getText());
-            String employeeName = encodeToURL(this.employeeName.getText());
-            String employeeTel = encodeToURL(this.employeeTel.getText());
-            String employeeMail = encodeToURL(this.employeeMail.getText());
-
-            connect.sendURLToInsertNewEmployee(employeeName, employeeTel, employeeMail);
-            fillList();
-            clearAllText();
+            errorMessageAddButton();
         }));
 
         this.delete.addActionListener((e) -> {
-         String employeeToDelete =  this.list.getSelectedValue();
-         String[] temp = employeeToDelete.split(",");
-         connect.sendURLToDeleteEmployeeByID(Integer.parseInt(temp[0]));
-         fillList();
-
+            String employeeToDelete = this.list.getSelectedValue();
+            if(this.list.getSelectedValue() == null){
+                JOptionPane.showMessageDialog(null, "Please, delete something");
+            } else {
+                String[] temp = employeeToDelete.split(",");
+                connect.sendURLToDeleteEmployeeByID(Integer.parseInt(temp[0]));
+                fillList();
+            }
         });
 
         this.update.addActionListener((e)->{
-            updateFunctionality();
-            clearAllText();
+            errorMessageUpdateButton();
         });
 
         buttons.add(this.enter);
@@ -166,6 +162,31 @@ public class AdminPageAddEmployee extends JPanel {
                     ","+employees[i].getEmployeeTel()+","+employees[i].getEmployeeEmail());
         }
 
+    }
+
+    public void errorMessageAddButton(){
+        if(employeeID.getText().equals("") && employeeName.getText().equals("") && employeeTel.getText().equals("") && employeeMail.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please, don't leave textfields empty");
+        } else {
+            String employeeName = encodeToURL(this.employeeName.getText());
+            String employeeTel = encodeToURL(this.employeeTel.getText());
+            String employeeMail = encodeToURL(this.employeeMail.getText());
+
+            connect.sendURLToInsertNewEmployee(employeeName, employeeTel, employeeMail);
+            fillList();
+            clearAllText();
+
+            JOptionPane.showMessageDialog(null, "Sucess!");
+        }
+    }
+
+    public void errorMessageUpdateButton(){
+        if(employeeID.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Please select what employee you want to update(SELECT ID!!!)");
+        } else{
+            updateFunctionality();
+            clearAllText();
+        }
     }
 
     public buttonMaker getBack() {
