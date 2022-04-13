@@ -78,14 +78,11 @@ public class AdminPageMovieSchedule extends JPanel {
         controlPanel.setBounds(50,255,900,400);
         controlPanel.setBackground(colorBack);
 
-<<<<<<< HEAD
-        this.movieNameText = new JLabel("Movie Name:");
-=======
-        this.movieIdText = new JLabel("movieID:");
-        this.movieIdText.setFont(new Font("sanserif", Font.BOLD, 15));
-        this.movieIdText.setForeground(Color.white);
+
+        //this.movieIdText = new JLabel("movieID:");
+        //this.movieIdText.setFont(new Font("sanserif", Font.BOLD, 15));
+        //this.movieIdText.setForeground(Color.white);
         this.movieNameText = new JLabel("Name:");
->>>>>>> 8b4ca67e014c2333ef12e16c8a135e21f9d39f14
         this.movieNameText.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieNameText.setForeground(Color.white);
         this.movieTimeText = new JLabel("Time:");
@@ -139,7 +136,6 @@ public class AdminPageMovieSchedule extends JPanel {
         //TODO: salon is null, 500 error, cant add movie_schedule yet
 
         this.enter.addActionListener((e -> {
-<<<<<<< HEAD
             // Toros // erkan
                 Movie movie = gson.fromJson(connect.sendUrlToGetMovieByName(this.movieName.getText()), Movie.class);
                 int movieId = movie.getId();
@@ -147,22 +143,7 @@ public class AdminPageMovieSchedule extends JPanel {
                 String salonTextArray = gson.toJson(salon.getDefultSalonSeats());
                 String respone = connect.sendURLToCreateMovieSchedule(salon.getSalonId(), this.movieTime.getText(), this.movieDate.getText(), movieId, salonTextArray);
                 System.out.println(respone);
-=======
-            // Toros
-                String movieID = encodeToURL(this.movieID.getText());
-                String movieName = encodeToURL(this.movieName.getText());
-                String movieTime = encodeToURL(this.movieTime.getText());
-                String movieDate = encodeToURL(this.movieDate.getText());
-                String movieSalonID = encodeToURL(this.movieSalonID.getText());
-                String cinemaID = encodeToURL(this.cinemaID.getText());
 
-                String salonString = connect.sendURLToDownloadOneSalonByID(Integer.parseInt(movieSalonID), Integer.parseInt(cinemaID));
-                System.out.println(salonString);
-                Salon salon = gson.fromJson(salonString, Salon.class);
-
-                //Below row is NOT finished. We need to solve the problem with seatsData Array.
-                connect.sendURLToCreateMovieSchedule(Integer.parseInt(movieSalonID), movieTime, movieDate, movieID, Arrays.toString(salon.getDefultSalonSeats()));
->>>>>>> 8b4ca67e014c2333ef12e16c8a135e21f9d39f14
                 fillList();
                 clearAllText();
         }));
