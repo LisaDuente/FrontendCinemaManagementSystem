@@ -182,11 +182,34 @@ public class ConnectionManager {
         return responseString;
     }
 
+    public String sendUrlToGetMovieByName(String name){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/downloadMovieByName?name=" + name);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            if (status < 300){
+                String line;
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                while ((line = reader.readLine()) != null){
+                    responseString += line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
     // ---------------------------- MOVIE ----------------------------------
 
     // ---------------------------------- Movie Schedule ----------------------------------------
-    // Toros
-    public String sendURLToCreateMovieSchedule(int salonId, String movieTime, String movieDate, String movieId, String seatsData){
+    // Toros // erkan
+    public String sendURLToCreateMovieSchedule(int salonId, String movieTime, String movieDate, int movieId, String seatsData){
         String responseString = "";
         try {
             URL url = new URL("http://localhost:8080/insertMovieSchedule?salonId=" + salonId + "&movieTime=" + movieTime + "&movieDate=" + movieDate +"&movieId=" + movieId + "&seatsData=" + seatsData);

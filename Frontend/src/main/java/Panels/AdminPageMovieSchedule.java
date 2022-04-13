@@ -28,13 +28,12 @@ public class AdminPageMovieSchedule extends JPanel {
 
     private JLabel info;
 
-    private JLabel movieIdText;
     private JLabel movieNameText;
     private JLabel movieTimeText;
     private JLabel movieDateText;
     private JLabel movieSalonIDText;
 
-    private JTextField movieID;
+
     private JTextField movieName;
     private JTextField movieTime;
     private JTextField movieDate;
@@ -76,10 +75,7 @@ public class AdminPageMovieSchedule extends JPanel {
         controlPanel.setBounds(50,255,900,400);
         controlPanel.setBackground(colorBack);
 
-        this.movieIdText = new JLabel("ID:");
-        this.movieIdText.setFont(new Font("sanserif", Font.BOLD, 15));
-        this.movieIdText.setForeground(Color.white);
-        this.movieNameText = new JLabel("Name:");
+        this.movieNameText = new JLabel("Movie Name:");
         this.movieNameText.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieNameText.setForeground(Color.white);
         this.movieTimeText = new JLabel("Time:");
@@ -92,8 +88,6 @@ public class AdminPageMovieSchedule extends JPanel {
         this.movieSalonIDText.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieSalonIDText.setForeground(Color.white);
 
-        this.movieID = new JTextField();
-        this.movieID.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieName = new JTextField();
         this.movieName.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieTime = new JTextField();
@@ -104,8 +98,7 @@ public class AdminPageMovieSchedule extends JPanel {
         this.movieSalonID.setFont(new Font("sanserif", Font.BOLD, 15));
 
         //TODO: take away name?
-        controlPanel.add(this.movieIdText);
-        controlPanel.add(this.movieID);
+
         controlPanel.add(this.movieNameText);
         controlPanel.add(this.movieName);
         controlPanel.add(this.movieTimeText);
@@ -129,18 +122,13 @@ public class AdminPageMovieSchedule extends JPanel {
         //TODO: Make these next two methods!
 
         this.enter.addActionListener((e -> {
-            // Toros
-                String movieID = encodeToURL(this.movieID.getText());
-                String movieName = encodeToURL(this.movieName.getText());
-                String movieTime = encodeToURL(this.movieTime.getText());
-                String movieDate = encodeToURL(this.movieDate.getText());
-                String movieSalonID = encodeToURL(this.movieSalonID.getText());
-
-                String salonString = connect.sendURLToDownloadOneSalonByID(Integer.parseInt(movieSalonID));
-                Salon salon = gson.fromJson(salonString, Salon.class);
-
-                //Below row is NOT finished. We need to solve the problem with seatsData Array.
-                //connect.sendURLToCreateMovieSchedule(Integer.parseInt(movieSalonID), movieTime, movieDate, movieID, ???salon.getDefultSalonSeats());
+            // Toros // erkan
+                Movie movie = gson.fromJson(connect.sendUrlToGetMovieByName(this.movieName.getText()), Movie.class);
+                int movieId = movie.getId();
+                Salon salon = gson.fromJson(connect.sendUrlToGetSalonById(Integer.parseInt(this.movieSalonID.getText()),1), Salon.class);
+                String salonTextArray = gson.toJson(salon.getDefultSalonSeats());
+                String respone = connect.sendURLToCreateMovieSchedule(salon.getSalonId(), this.movieTime.getText(), this.movieDate.getText(), movieId, salonTextArray);
+                System.out.println(respone);
                 fillList();
                 clearAllText();
         }));
@@ -221,7 +209,6 @@ public class AdminPageMovieSchedule extends JPanel {
 
 
     public void clearAllText(){
-        this.movieID.setText("");
         this.movieName.setText("");
         this.movieTime.setText("");
         this.movieDate.setText("");

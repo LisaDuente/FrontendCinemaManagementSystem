@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -132,7 +131,10 @@ public class MainFrame extends JFrame {
             String movieScheduleAsString = connect.sendUrlToGetMovieSchedule(Integer.parseInt(temp[3]),
                     this.movieDetails.getCurrentMovie().getId(), temp[1], temp[2]);
             this.movieBookning.setMovieSchedule(gson.fromJson(movieScheduleAsString, MovieSchedule.class));
+
+            this.movieBookning.update();
             this.movieBookning.setVisible(true);
+
             JPanel footer = this.movieBookning.footerConfirmationPanel();
             footer.setLayout(new FlowLayout());
             footer.setVisible(false);
