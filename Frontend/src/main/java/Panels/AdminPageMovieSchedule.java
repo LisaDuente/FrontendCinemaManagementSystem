@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class AdminPageMovieSchedule extends JPanel {
     private UpdateManager updater;
@@ -32,12 +33,14 @@ public class AdminPageMovieSchedule extends JPanel {
     private JLabel movieTimeText;
     private JLabel movieDateText;
     private JLabel movieSalonIDText;
+    private JLabel cinemaIDText;
 
 
     private JTextField movieName;
     private JTextField movieTime;
     private JTextField movieDate;
     private JTextField movieSalonID;
+    private JTextField cinemaID;
 
     private buttonMaker back;
     private buttonMaker enter;
@@ -75,7 +78,14 @@ public class AdminPageMovieSchedule extends JPanel {
         controlPanel.setBounds(50,255,900,400);
         controlPanel.setBackground(colorBack);
 
+<<<<<<< HEAD
         this.movieNameText = new JLabel("Movie Name:");
+=======
+        this.movieIdText = new JLabel("movieID:");
+        this.movieIdText.setFont(new Font("sanserif", Font.BOLD, 15));
+        this.movieIdText.setForeground(Color.white);
+        this.movieNameText = new JLabel("Name:");
+>>>>>>> 8b4ca67e014c2333ef12e16c8a135e21f9d39f14
         this.movieNameText.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieNameText.setForeground(Color.white);
         this.movieTimeText = new JLabel("Time:");
@@ -87,6 +97,9 @@ public class AdminPageMovieSchedule extends JPanel {
         this.movieSalonIDText = new JLabel("SalonID:");
         this.movieSalonIDText.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieSalonIDText.setForeground(Color.white);
+        this.cinemaIDText = new JLabel("CinemaID:");
+        this.cinemaIDText.setFont(new Font("sanserif", Font.BOLD, 15));
+        this.cinemaIDText.setForeground(Color.white);
 
         this.movieName = new JTextField();
         this.movieName.setFont(new Font("sanserif", Font.BOLD, 15));
@@ -96,6 +109,8 @@ public class AdminPageMovieSchedule extends JPanel {
         this.movieDate.setFont(new Font("sanserif", Font.BOLD, 15));
         this.movieSalonID = new JTextField();
         this.movieSalonID.setFont(new Font("sanserif", Font.BOLD, 15));
+        this.cinemaID = new JTextField();
+        this.cinemaID.setFont(new Font("sanserif", Font.BOLD, 15));
 
         //TODO: take away name?
 
@@ -107,6 +122,8 @@ public class AdminPageMovieSchedule extends JPanel {
         controlPanel.add(this.movieDate);
         controlPanel.add(this.movieSalonIDText);
         controlPanel.add(this.movieSalonID);
+        controlPanel.add(this.cinemaIDText);
+        controlPanel.add(this.cinemaID);
 
         controlPanel.setVisible(true);
 //BUTTON PANEL
@@ -119,9 +136,10 @@ public class AdminPageMovieSchedule extends JPanel {
         this.delete = new buttonMaker("Delete",220,20,60, "/blalba");
         this.update = new buttonMaker("Update",135,206,235,"/DontKnowYet");
 
-        //TODO: Make these next two methods!
+        //TODO: salon is null, 500 error, cant add movie_schedule yet
 
         this.enter.addActionListener((e -> {
+<<<<<<< HEAD
             // Toros // erkan
                 Movie movie = gson.fromJson(connect.sendUrlToGetMovieByName(this.movieName.getText()), Movie.class);
                 int movieId = movie.getId();
@@ -129,6 +147,22 @@ public class AdminPageMovieSchedule extends JPanel {
                 String salonTextArray = gson.toJson(salon.getDefultSalonSeats());
                 String respone = connect.sendURLToCreateMovieSchedule(salon.getSalonId(), this.movieTime.getText(), this.movieDate.getText(), movieId, salonTextArray);
                 System.out.println(respone);
+=======
+            // Toros
+                String movieID = encodeToURL(this.movieID.getText());
+                String movieName = encodeToURL(this.movieName.getText());
+                String movieTime = encodeToURL(this.movieTime.getText());
+                String movieDate = encodeToURL(this.movieDate.getText());
+                String movieSalonID = encodeToURL(this.movieSalonID.getText());
+                String cinemaID = encodeToURL(this.cinemaID.getText());
+
+                String salonString = connect.sendURLToDownloadOneSalonByID(Integer.parseInt(movieSalonID), Integer.parseInt(cinemaID));
+                System.out.println(salonString);
+                Salon salon = gson.fromJson(salonString, Salon.class);
+
+                //Below row is NOT finished. We need to solve the problem with seatsData Array.
+                connect.sendURLToCreateMovieSchedule(Integer.parseInt(movieSalonID), movieTime, movieDate, movieID, Arrays.toString(salon.getDefultSalonSeats()));
+>>>>>>> 8b4ca67e014c2333ef12e16c8a135e21f9d39f14
                 fillList();
                 clearAllText();
         }));
@@ -215,7 +249,7 @@ public class AdminPageMovieSchedule extends JPanel {
         this.movieSalonID.setText("");
     }
 
-    public static String encodeToURL(String inputString) {
+    public String encodeToURL(String inputString) {
         String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
         return encodedString;
     }
