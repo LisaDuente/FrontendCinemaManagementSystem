@@ -694,7 +694,81 @@ public class ConnectionManager {
             e.printStackTrace();
         }
         return responseString;
+    }
 
+    //LISA
+    public String makeReservation(String seats, int salonID, String row, int movieID, String time, String date){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/makeReservation?seats="+seats+"&salonID="+salonID+"&row="+row+
+                    "&movieID="+movieID+"&time="+time+"&date="+date);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+    //LISA
+    public String getReservation(int ID){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/getReservation?ID="+ID);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
+
+    public String getLatestReservationID(){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/getLatestReservationID");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
     }
 
 }

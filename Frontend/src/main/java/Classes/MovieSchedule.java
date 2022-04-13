@@ -24,6 +24,16 @@ public class MovieSchedule {
         this.isAvailable = isAvailable;
     }
 
+    public MovieSchedule(String salonId, String movieTime, String movieDate, int movieId, int[][] array, boolean isAvailable) {
+        Gson gson = new Gson();
+        this.salonId = salonId;
+        this.movieTime = movieTime;
+        this.movieDate = movieDate;
+        this.movieId = movieId;
+        this.seatOfArrayForMovie = array;
+        this.isAvailable = isAvailable;
+    }
+
     @Override
     public String toString() {
         return "Classes.MovieSchedule{" +

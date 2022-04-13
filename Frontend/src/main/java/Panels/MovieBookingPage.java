@@ -23,6 +23,7 @@ public class MovieBookingPage extends JPanel {
     JPanel info;
     JPanel confirmationPanel;
     JPanel footer;
+    private JPanel infoDisplayPanel;
 
     JLabel movieName;
     JLabel dateNtime;
@@ -60,6 +61,7 @@ public class MovieBookingPage extends JPanel {
         this.movie = new Movie(1, "dull", "dull", "dull", "dull", "dull", "dull",true);
         this.tempArray = movieSchedule.getSeatOfArrayForMovie();
         this.seats = new JTextField[salon.getSalonRow()][salon.getSalonCol()];
+        continueBtn = new JButton("Proceed");
 
         for (int i = 0; i < salon.getSalonRow(); i++){
             for (int j = 0; j < salon.getSalonCol(); j++){
@@ -378,7 +380,7 @@ public class MovieBookingPage extends JPanel {
     }
 
     private void infoDisplayConfirmationPanel() {
-        JPanel infoDisplayPanel = new JPanel();
+        infoDisplayPanel = new JPanel();
         infoDisplayPanel.setPreferredSize(new Dimension(1000, 900));
         infoDisplayPanel.setBackground(new Color(81, 24, 69));
         infoDisplayPanel.setLayout(null);
@@ -422,7 +424,6 @@ public class MovieBookingPage extends JPanel {
         JLabel e5 = new JLabel();
         JLabel e6 = new JLabel();
         JLabel e7 = new JLabel();
-        continueBtn = new JButton("Do you want to proceed?");
         changeSeatBtn = new JButton("Change seats");
         changeSeatBtn.setForeground(white);
         changeSeatBtn.setBackground(new Color(255, 87, 51));
@@ -644,6 +645,41 @@ public class MovieBookingPage extends JPanel {
             booking.add(temp);
         }
         booking.setVisible(true);
+    }
 
+    public JButton getContinueBtn() {
+        return this.continueBtn;
+    }
+
+    public JPanel getInfoDisplayPanel() {
+        return infoDisplayPanel;
+    }
+
+    public JPanel getFooter() {
+        return footer;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public Salon getSalon() {
+        return salon;
+    }
+
+    public MovieSchedule getMovieSchedule() {
+        return movieSchedule;
+    }
+
+    public JLabel getSalonNumLabel() {
+        return salonNumLabel;
+    }
+
+    public JLabel getSeatRow() {
+        return seatRow;
+    }
+
+    public JLabel getSeatsCol() {
+        return seatsCol;
     }
 }

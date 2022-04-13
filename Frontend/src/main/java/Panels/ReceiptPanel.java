@@ -1,16 +1,24 @@
 package Panels;
 
+import Classes.Movie;
+import Classes.MovieSchedule;
+import Classes.Salon;
 import Functionality.buttonMaker;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ReceiptPanel extends JPanel{
-    //TODO: something that holds all info from the booking page?
+    private MovieSchedule movieSchedule;
+    private Salon salon;
+    private Movie movie;
+    private String row;
+    private String seats;
 
     private JLabel headMessage;
     private JLabel reservationID;
     private JLabel seatNumber;
+    private JLabel rowLabel;
     private JLabel salonID;
 
     private buttonMaker back;
@@ -41,13 +49,27 @@ public class ReceiptPanel extends JPanel{
         this.seatNumber.setForeground(Color.white);
         this.seatNumber.setBounds(300,100,500,100);
 
+        this.rowLabel = new JLabel("ROW");
+        this.rowLabel.setFont(new Font("sanserif", Font.BOLD, 25));
+        this.rowLabel.setForeground(Color.white);
+        this.rowLabel.setBounds(300,150,500,100);
+
         this.salonID = new JLabel("SALONID");
         this.salonID.setFont(new Font("sanserif", Font.BOLD, 25));
         this.salonID.setForeground(Color.white);
-        this.salonID.setBounds(300,150,500,100);
+        this.salonID.setBounds(300,200,500,100);
 
         this.back = new buttonMaker("Back",255, 87, 15, "/blabla");
         this.close =  new buttonMaker("Close",255, 87, 15, "/blabla");
+
+        //INITIALIZE CLASSES
+        this.movie = new Movie();
+        this.movieSchedule = new MovieSchedule();
+        this.salon = new Salon();
+
+        //INITIALIZE STRINGS
+        this.row = "0";
+        this.seats = "0,0";
 
 
     //SET INNER PANELS
@@ -61,6 +83,7 @@ public class ReceiptPanel extends JPanel{
         central.setBackground(colorBack);
         central.add(this.reservationID);
         central.add(this.seatNumber);
+        central.add(this.rowLabel);
         central.add(this.salonID);
         central.setVisible(true);
 
@@ -99,6 +122,27 @@ public class ReceiptPanel extends JPanel{
         return seatNumber;
     }
 
+    public void setSalon(Salon salon) {
+        this.salon = salon;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public void setMovieSchedule(MovieSchedule movieSchedule) {
+        this.movieSchedule = movieSchedule;
+    }
+
+    public void setSeats(String seats) {
+        this.seats = seats;
+    }
+
+    public void setRow(String row) {
+        this.row = row;
+    }
+
+
     //TODO: update method to set the Labes to the right reservation number, seat and so on
 
     public void updatePanel(String seats, String reservationID, String salonID){
@@ -106,4 +150,5 @@ public class ReceiptPanel extends JPanel{
         this.reservationID.setText(reservationID);
         this.salonID.setText(salonID);
     }
+
 }

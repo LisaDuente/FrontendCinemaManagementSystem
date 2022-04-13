@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class MainFrame extends JFrame {
@@ -113,35 +115,9 @@ public class MainFrame extends JFrame {
             this.movieList.setVisible(true);
             this.backPanel.setVisible(true);
         });
-        //TODO: this should lead to the Bookingpage not to the receipt
-            this.movieDetails.getBook().addActionListener((e)->{
-            this.movieDetails.setVisible(false);
 
-            //get the info from the list in movieDetails
-            String infoFromMovieSchedule = this.movieDetails.getList().getSelectedValue();
-            System.out.println(infoFromMovieSchedule);
-            String[] temp = infoFromMovieSchedule.split(",");
-
-            //set the movie to the current movie from movieDetails
-            this.movieBookning.setMovie(this.movieDetails.getCurrentMovie());
-
-            //download the salon for the booking page
-            String salonAsString = connect.sendUrlToGetSalonById(Integer.parseInt(temp[3]),1);
-            this.movieBookning.setSalon(gson.fromJson(salonAsString, Salon.class));
-
-            //download the right movieSchedule
-            String movieScheduleAsString = connect.sendUrlToGetMovieSchedule(Integer.parseInt(temp[3]),
-                    this.movieDetails.getCurrentMovie().getId(), temp[1], temp[2]);
-            this.movieBookning.setMovieSchedule(gson.fromJson(movieScheduleAsString, MovieSchedule.class));
-
-            this.movieBookning.update();
-            this.movieBookning.setVisible(true);
-
-            JPanel footer = this.movieBookning.footerConfirmationPanel();
-            footer.setLayout(new FlowLayout());
-            footer.setVisible(false);
-            this.movieBookning.add(footer,BorderLayout.NORTH);
-
+        this.movieDetails.getBook().addActionListener((e)->{
+            bookButtonFunctionality();
         });
 
         //ADD FUNCTIONALITY MOVIEBOOKING
@@ -150,11 +126,14 @@ public class MainFrame extends JFrame {
             this.movieDetails.setVisible(true);
         });
 
+        this.movieBookning.getContinueBtn().addActionListener((e)->{
+            continueButtonFunctionality();
+        });
+
         //ADD FUNCTIONALITY RECEIPT
-        //TODO: this should lead back to booking and not to movie details
         this.receipt.getBack().addActionListener((e)-> {
             this.receipt.setVisible(false);
-            this.movieDetails.setVisible(true);
+            this.movieBookning.setVisible(true);
         });
 
         this.receipt.getClose().addActionListener((e)-> {
@@ -170,12 +149,12 @@ public class MainFrame extends JFrame {
             this.movie.fillList();
         });
 
-            this.admin.getStaff().addActionListener((e )-> {
-                this.admin.setVisible(false);
-                this.backPanel.setVisible(false);
-                this.employee.setVisible(true);
-                this.employee.fillList();
-            });
+        this.admin.getStaff().addActionListener((e )-> {
+            this.admin.setVisible(false);
+            this.backPanel.setVisible(false);
+            this.employee.setVisible(true);
+            this.employee.fillList();
+        });
 
         this.admin.getMovieSchedule().addActionListener((e )-> {
             this.admin.setVisible(false);
@@ -235,7 +214,6 @@ public class MainFrame extends JFrame {
                 this.admin.getStaffSchedule().setEnabled(false);
                 this.admin.getMovie().setEnabled(false);
                 this.admin.getStaff().setEnabled(false);
-
             }
         });
     }
@@ -262,5 +240,88 @@ public class MainFrame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String convertStrings(String seats){
+        String finished = "";
+        for(int i = 0; i<seats.length(); i++){
+            if(Character.isDigit(seats.charAt(i))){
+                finished = finished+seats.charAt(i)+",";
+            }
+        }
+        int lenght = finished.length()-1;
+        finished = finished.substring(0,lenght);
+        return finished;
+    }
+
+    public void continueButtonFunctionality(){
+        //transfering data to receiptPanel
+        Movie movie = this.movieBookning.getMovie();
+        this.receipt.setMovie(movie);
+        Salon salon = this.movieBookning.getSalon();
+        this.receipt.setSalon(salon);
+        MovieSchedule movieSchedule = this.movieBookning.getMovieSchedule();
+        System.out.println("movieSchedule:"+movieSchedule.toString());
+        this.receipt.setMovieSchedule(movieSchedule);
+        String seats= this.movieBookning.getSeatsCol().getText();
+        this.receipt.setSeats(seats);
+        String row = this.movieBookning.getSeatRow().getText();
+        this.receipt.setRow(row);
+
+
+        //making a booking in the database whit encoded strings
+        String convertedSeats = convertStrings(seats);
+        String convertedRow = convertStrings(row);
+        connect.makeReservation(
+                encodeToURL(convertedSeats),
+                salon.getSalonId(),
+                encodeToURL(convertedRow),
+                movie.getId(),
+                encodeToURL(movieSchedule.getMovieTime()),
+                encodeToURL(movieSchedule.getMovieDate()));
+
+        String reservationID = connect.getLatestReservationID();
+
+        //updation the labes on the panel
+        this.receipt.updatePanel(seats,"Reservation ID: "+reservationID, "Salon: "+salon.getSalonId());
+
+        //setting visibility
+        this.movieBookning.setVisible(false);
+        this.receipt.setVisible(true);
+    }
+
+    public void bookButtonFunctionality(){
+        this.movieDetails.setVisible(false);
+
+        //get the info from the list in movieDetails
+        String infoFromMovieSchedule = this.movieDetails.getList().getSelectedValue();
+        System.out.println(infoFromMovieSchedule);
+        String[] temp = infoFromMovieSchedule.split(",");
+
+        //set the movie to the current movie from movieDetails
+        this.movieBookning.setMovie(this.movieDetails.getCurrentMovie());
+
+        //download the salon for the booking page
+        String salonAsString = connect.sendUrlToGetSalonById(Integer.parseInt(temp[3]),1);
+        this.movieBookning.setSalon(gson.fromJson(salonAsString, Salon.class));
+
+        //download the right movieSchedule
+        String movieScheduleAsString = connect.sendUrlToGetMovieSchedule(Integer.parseInt(temp[3]),
+                this.movieDetails.getCurrentMovie().getId(), temp[1], temp[2]);
+        System.out.println(movieScheduleAsString);
+        this.movieBookning.setMovieSchedule(gson.fromJson(movieScheduleAsString, MovieSchedule.class));
+
+        this.movieBookning.update();
+        this.movieBookning.setVisible(true);
+
+        JPanel footer = this.movieBookning.footerConfirmationPanel();
+        footer.setLayout(new FlowLayout());
+        footer.setVisible(false);
+        this.movieBookning.add(footer,BorderLayout.NORTH);
+    }
+
+    public String encodeToURL(String inputString) {
+        String encodedString = URLEncoder.encode(inputString, StandardCharsets.UTF_8);
+        return encodedString;
     }
 }
