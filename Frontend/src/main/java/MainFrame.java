@@ -52,10 +52,8 @@ public class MainFrame extends JFrame {
         this.employeeSchedule = new AdminPageEmployeeSchedule();
         this.movieBookning = new MovieBookingPage();
 
-
         //INITIALIZE MOVIES
        refresh();
-
 
         //ADD TO FRAME
         this.add(this.movieList, BorderLayout.CENTER);
@@ -119,15 +117,19 @@ public class MainFrame extends JFrame {
         //TODO: this should lead to the Bookingpage not to the receipt
             this.movieDetails.getBook().addActionListener((e)->{
             this.movieDetails.setVisible(false);
+
             //get the info from the list in movieDetails
             String infoFromMovieSchedule = this.movieDetails.getList().getSelectedValue();
             System.out.println(infoFromMovieSchedule);
             String[] temp = infoFromMovieSchedule.split(",");
+
             //set the movie to the current movie from movieDetails
             this.movieBookning.setMovie(this.movieDetails.getCurrentMovie());
+
             //download the salon for the booking page
             String salonAsString = connect.sendUrlToGetSalonById(Integer.parseInt(temp[3]),1);
             this.movieBookning.setSalon(gson.fromJson(salonAsString, Salon.class));
+
             //download the right movieSchedule
             String movieScheduleAsString = connect.sendUrlToGetMovieSchedule(Integer.parseInt(temp[3]),
                     this.movieDetails.getCurrentMovie().getId(), temp[1], temp[2]);
