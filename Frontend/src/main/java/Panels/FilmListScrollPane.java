@@ -54,7 +54,7 @@ public class FilmListScrollPane extends JScrollPane {
             //converts the json objects in the list to actual movie objects
             String movieString = String.valueOf(movieListFromBackend.get(i));
             this.currentMovie = gson.fromJson(movieString, Movie.class);
-            if((boolean)this.currentMovie.isAvailable()) {
+            if(this.currentMovie.isAvailable()) {
 
                 JPanel rowPanel = new JPanel();
                 rowPanel.setPreferredSize(new Dimension(600, 100));

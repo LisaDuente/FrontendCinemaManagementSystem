@@ -1,14 +1,32 @@
-package Test;
+import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 import Classes.Movie;
 import Functionality.UpdateManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+import Panels.AdminPageAddFilm;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-class UpdateManagerTest {
+
+class UpdateManagerTest01 {
+
+    @Test
+    void updateEmployee() {
+    }
+
     UpdateManager updater;
 
     @BeforeEach
@@ -84,7 +102,4 @@ class UpdateManagerTest {
         //result
         assertEquals("Batman",movie.getName());
     }
-
-
-
 }
