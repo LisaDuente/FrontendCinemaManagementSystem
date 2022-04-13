@@ -3,7 +3,9 @@ package Panels;
 import Classes.Movie;
 import Classes.MovieSchedule;
 import Classes.Salon;
+import Functionality.ConnectionManager;
 import Functionality.buttonMaker;
+import com.google.gson.Gson;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,6 +53,7 @@ public class MovieBookingPage extends JPanel {
     Salon salon;
     Movie movie;
     private buttonMaker backBtn;
+    private ConnectionManager connectionManager = new ConnectionManager();
 
 
     public MovieBookingPage(){
@@ -178,7 +181,7 @@ public class MovieBookingPage extends JPanel {
                                         seatRow.setText("row:  " + (tempFinalI + 1));
                                         seatsString = seatsString + tempInt;
                                     }else {
-                                        seatsString = seatsString + " | " + tempInt;
+                                        seatsString = seatsString + "|" + tempInt;
                                     }
                                 }
                                 seatsCol.setText("Seats:  " + seatsString);
@@ -560,7 +563,7 @@ public class MovieBookingPage extends JPanel {
                                         seatRow.setText("row:  " + (tempFinalI + 1));
                                         seatsString = seatsString + tempInt;
                                     }else {
-                                        seatsString = seatsString + " | " + tempInt;
+                                        seatsString = seatsString + "|" + tempInt;
                                     }
                                 }
                                 seatsCol.setText("Seats:  " + seatsString);
@@ -645,6 +648,21 @@ public class MovieBookingPage extends JPanel {
             booking.add(temp);
         }
         booking.setVisible(true);
+    }
+
+    public void updateBookedSeats(){
+        Gson gson = new Gson();
+        if (seatsSelectedCount == 1){
+            tempArray[Integer.parseInt(seatRow.getText().replaceAll("row:\s\s", ""))-1][Integer.parseInt(seatsCol.getText().replaceAll("seat:\s\s", "")) - 1] = 1; //1 indicates occupied
+            connectionManager.sendUrlToUpdateMovieScheduleArray(gson.toJson(tempArray), salon.getSalonId(), movie.getId(), movieSchedule.getMovieTime(), movieSchedule.getMovieDate());
+        }else {
+            String[] tempString = seatsCol.getText().replaceAll("Seats:\s\s", "").split("\\|");
+            for (String s : tempString) {
+                tempArray[Integer.parseInt(seatRow.getText().replaceAll("row:\s\s", "")) - 1][Integer.parseInt(s) - 1] = 1; //1 indicates being occupied
+
+            }
+            connectionManager.sendUrlToUpdateMovieScheduleArray(gson.toJson(tempArray), salon.getSalonId(), movie.getId(), movieSchedule.getMovieTime(), movieSchedule.getMovieDate());
+        }
     }
 
     public JButton getContinueBtn() {

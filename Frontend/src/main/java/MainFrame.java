@@ -1,5 +1,6 @@
 import Classes.Movie;
 import Classes.MovieSchedule;
+import Classes.Reservation;
 import Classes.Salon;
 import Functionality.ConnectionManager;
 import Panels.*;
@@ -88,6 +89,10 @@ public class MainFrame extends JFrame {
             //download the whole movieSchedule and go to booking page
         });
 
+        this.startPage.getShowReservation().addActionListener((e)->{
+            showReservation();
+        });
+
         this.startPage.getListOfMovies().addActionListener((e) -> {
             this.startPage.setVisible(false);
             this.movieList.setVisible(true);
@@ -132,8 +137,7 @@ public class MainFrame extends JFrame {
 
         //ADD FUNCTIONALITY RECEIPT
         this.receipt.getBack().addActionListener((e)-> {
-            this.receipt.setVisible(false);
-            this.movieBookning.setVisible(true);
+           System.out.println("Get back to the starpage");
         });
 
         this.receipt.getClose().addActionListener((e)-> {
@@ -214,6 +218,7 @@ public class MainFrame extends JFrame {
                 this.admin.getStaffSchedule().setEnabled(false);
                 this.admin.getMovie().setEnabled(false);
                 this.admin.getStaff().setEnabled(false);
+                this.movieDetails.getBook().setEnabled(false);
             }
         });
     }
@@ -266,7 +271,7 @@ public class MainFrame extends JFrame {
         String seats= this.movieBookning.getSeatsCol().getText();
         this.receipt.setSeats(seats);
         String row = this.movieBookning.getSeatRow().getText();
-        this.receipt.setRow(row);
+        this.receipt.getRowLabel().setText("Row: "+row);
 
 
         //making a booking in the database whit encoded strings
@@ -281,6 +286,9 @@ public class MainFrame extends JFrame {
                 encodeToURL(movieSchedule.getMovieDate()));
 
         String reservationID = connect.getLatestReservationID();
+
+        //updating taken seats in database
+        this.movieBookning.updateBookedSeats();
 
         //updation the labes on the panel
         this.receipt.updatePanel(seats,"Reservation ID: "+reservationID, "Salon: "+salon.getSalonId());
@@ -318,6 +326,38 @@ public class MainFrame extends JFrame {
         footer.setLayout(new FlowLayout());
         footer.setVisible(false);
         this.movieBookning.add(footer,BorderLayout.NORTH);
+    }
+
+    public void showReservation() {
+        int max = Integer.parseInt(connect.getLatestReservationID());
+        String input = this.startPage.getInsertReservation().getText();
+
+        if (Integer.parseInt(input) < max && Integer.parseInt(input) > 0) {
+            //load the reservation
+            String resAsString = connect.getReservation(Integer.parseInt(input));
+            Reservation[] res = gson.fromJson(resAsString, Reservation[].class);
+
+            //concat every seat in the reservation
+            String concatedSeats = "";
+            for (Reservation singleRes : res) {
+                concatedSeats = concatedSeats + singleRes.getSeats() + " | ";
+            }
+            int length = concatedSeats.length();
+            concatedSeats = concatedSeats.substring(0, length-2);
+
+            //set the text on receipt panel
+            this.receipt.getHeadMessage().setText("Your reservation:");
+            this.receipt.getRowLabel().setText("Row: " + res[0].getRow());
+            this.receipt.getTimeAndDate().setText(res[0].getMovieTime() +" on the "+res[0].getMovieDate());
+            this.receipt.updatePanel("Seats: " + concatedSeats, "Your ID: " + res[0].getReservationID(),
+                    "Salon: " + res[0].getSalonID());
+
+            //set visibility
+            this.receipt.setVisible(true);
+            this.startPage.setVisible(false);
+        }else{
+            this.startPage.getInsertReservation().setText("");
+        }
     }
 
     public String encodeToURL(String inputString) {

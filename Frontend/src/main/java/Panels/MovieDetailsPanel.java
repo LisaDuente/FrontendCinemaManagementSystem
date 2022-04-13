@@ -65,6 +65,7 @@ public class MovieDetailsPanel extends JPanel {
         this.image = new JLabel(this.imageIcon);
         this.description = new JTextArea();
         this.book = new buttonMaker("Book",255,87,15,"dontKnowYet");
+        this.book.setEnabled(false);
         this.back = new buttonMaker("Back",255,87,15,"dontKnowYet");
 
         //BOUNDS
@@ -92,8 +93,8 @@ public class MovieDetailsPanel extends JPanel {
         this.description.setEditable(false);
         this.description.setFocusable(false);
 
-
         //ACTION LISTENER
+        this.list.addListSelectionListener((e -> this.book.setEnabled(true)));
 
         //PANELS FOR COMPONENTS
         JPanel northPanel = new JPanel(new GridLayout(0,3,0,2));

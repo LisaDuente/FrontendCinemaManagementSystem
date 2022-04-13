@@ -18,8 +18,6 @@ public class FilmListScrollPane extends JScrollPane {
     private Movie currentMovie = new Movie();
     private ArrayList<Movie> movieListFromBackend;
 
-
-    //TODO: Add an Image Icon and a Link from a website to this panel
     public FilmListScrollPane(MovieDetailsPanel movieDetails, BackPanel back){
         this.connector = new ConnectionManager();
         this.movieDetails = movieDetails;
@@ -75,6 +73,7 @@ public class FilmListScrollPane extends JScrollPane {
                     this.movieDetails.setCurrentMovie(this.currentMovie);
                     this.movieDetails.updatePanel();
                     this.movieDetails.setVisible(true);
+                    this.movieDetails.getBook().setEnabled(false);
                     this.back.setVisible(false);
 
                 });

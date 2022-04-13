@@ -14,9 +14,9 @@ public class startPagePanel extends JPanel {
     private JTextArea moto;
     private JTextArea movieDesc;
 
-    private buttonMaker home;
-    private buttonMaker aboutUs;
-    private buttonMaker contact;
+    private JTextField insertReservation;
+
+    private buttonMaker showReservation;
     private buttonMaker book;
     private buttonMaker listOfMovies;
     private buttonMaker watch;
@@ -39,17 +39,16 @@ public class startPagePanel extends JPanel {
         this.navPanel.setLayout(null);
         this.navPanel.setPreferredSize(new Dimension(1000,100));
         this.navPanel.setBackground(new Color(144, 12, 63));
-        this.home = new buttonMaker("HOME", 255,87,15, "/blabla");
-        this.aboutUs = new buttonMaker("About Us", 255, 87, 15, "/blabla");
-        this.contact = new buttonMaker("Contact Us", 255, 87, 15, "/blabla");
-        this.home.setBounds(150,15,150,70);
-        this.aboutUs.setBounds(350, 15, 180, 70);
-        this.contact.setBounds(580, 15, 200, 70);
+        this.showReservation = new buttonMaker("Check Reservation", 255,87,15, "/blabla");
+        this.insertReservation = new JTextField();
+
+        this.showReservation.setBounds(150,15,350,50);
+        this.insertReservation.setBounds(520, 15, 200, 50);
+        this.insertReservation.setFont(new Font("sanserif", Font.BOLD, 25));
         this.logo = logoSetup();
         this.navPanel.add(logo);
-        this.navPanel.add(home);
-        this.navPanel.add(aboutUs);
-        this.navPanel.add(contact);
+        this.navPanel.add(insertReservation);
+        this.navPanel.add(showReservation);
         this.navPanel.setVisible(true);
         return this.navPanel;
     } //NAVIGATION PANEL
@@ -156,16 +155,8 @@ public class startPagePanel extends JPanel {
         return book;
     }
 
-    public buttonMaker getAboutUs() {
-        return aboutUs;
-    }
-
-    public buttonMaker getContact() {
-        return contact;
-    }
-
     public buttonMaker getHome() {
-        return home;
+        return showReservation;
     }
 
     public buttonMaker getListOfMovies() {
@@ -186,6 +177,14 @@ public class startPagePanel extends JPanel {
 
     public JLabel getMoviePicture() {
         return moviePicture;
+    }
+
+    public JTextField getInsertReservation() {
+        return insertReservation;
+    }
+
+    public buttonMaker getShowReservation() {
+        return showReservation;
     }
 
     public void setMovieDesc(JTextArea movieDesc) {

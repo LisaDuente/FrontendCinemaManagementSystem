@@ -20,6 +20,7 @@ public class ReceiptPanel extends JPanel{
     private JLabel seatNumber;
     private JLabel rowLabel;
     private JLabel salonID;
+    private JLabel timeAndDate;
 
     private buttonMaker back;
     private buttonMaker close;
@@ -59,7 +60,12 @@ public class ReceiptPanel extends JPanel{
         this.salonID.setForeground(Color.white);
         this.salonID.setBounds(300,200,500,100);
 
-        this.back = new buttonMaker("Back",255, 87, 15, "/blabla");
+        this.timeAndDate = new JLabel("");
+        this.timeAndDate.setFont(new Font("sanserif", Font.BOLD, 25));
+        this.timeAndDate.setForeground(Color.white);
+        this.timeAndDate.setBounds(300,250,500,100);
+
+        this.back = new buttonMaker("Back to start",255, 87, 15, "/blabla");
         this.close =  new buttonMaker("Close",255, 87, 15, "/blabla");
 
         //INITIALIZE CLASSES
@@ -85,6 +91,7 @@ public class ReceiptPanel extends JPanel{
         central.add(this.seatNumber);
         central.add(this.rowLabel);
         central.add(this.salonID);
+        central.add(this.timeAndDate);
         central.setVisible(true);
 
         JPanel south = new JPanel(new FlowLayout());
@@ -122,6 +129,10 @@ public class ReceiptPanel extends JPanel{
         return seatNumber;
     }
 
+    public JLabel getRowLabel() {
+        return rowLabel;
+    }
+
     public void setSalon(Salon salon) {
         this.salon = salon;
     }
@@ -142,6 +153,13 @@ public class ReceiptPanel extends JPanel{
         this.row = row;
     }
 
+    public JLabel getHeadMessage() {
+        return headMessage;
+    }
+
+    public JLabel getTimeAndDate() {
+        return timeAndDate;
+    }
 
     //TODO: update method to set the Labes to the right reservation number, seat and so on
 

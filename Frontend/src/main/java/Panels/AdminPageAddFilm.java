@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -146,7 +145,6 @@ public class AdminPageAddFilm extends JPanel {
         this.delete = new buttonMaker("Delete",220,20,60, "/blalba");
         this.update = new buttonMaker("Update",135,206,235,"/DontKnowYet");
 
-        //TODO: Make these next two methods!
         this.enter.addActionListener((e -> {
             // Toros
             errorMessageAddButton();
@@ -260,7 +258,6 @@ public class AdminPageAddFilm extends JPanel {
         this.picturePath.setText("");
         this.available.setText("");
     }
-
 
     // Toros
     public String encodeToURL(String inputString) {

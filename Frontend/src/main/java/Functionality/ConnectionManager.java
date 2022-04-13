@@ -770,5 +770,30 @@ public class ConnectionManager {
         }
         return responseString;
     }
+    //ERKAN
+    public String sendUrlToUpdateMovieScheduleArray(String array, int salonId, int movieId, String time, String date){
+        String responseString = "";
+        try {
+            URL url = new URL("http://localhost:8080/updateMovieSchedule?seats=" + array + "&salonID=" + salonId + "&movieID=" + movieId + "&time=" + time + "&date=" + date);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+            connection.setDoOutput(true);
+
+            int status = connection.getResponseCode();
+            System.out.println(status);
+            if (status < 300){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                while ((line = reader.readLine()) != null){
+                    responseString = responseString + line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseString;
+    }
 
 }
