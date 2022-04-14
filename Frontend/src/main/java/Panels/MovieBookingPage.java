@@ -135,7 +135,6 @@ public class MovieBookingPage extends JPanel {
 
         for (int i = 0; i < seats.length; i++) {
             JPanel temp = new JPanel();
-            temp.setPreferredSize(new Dimension(700, salon.getSalonRow() * grid_size));
             temp.setBackground(new Color(81, 24, 69));
             temp.setLayout(new GridLayout(1, salon.getSalonCol(), 10, 12));
             for (int j = 0; j < salon.getSalonCol(); j++) {
@@ -522,7 +521,7 @@ public class MovieBookingPage extends JPanel {
         for (int i = 0; i < seats.length; i++) {
             JPanel temp = new JPanel();
             temp.setBackground(new Color(81, 24, 69));
-            temp.setPreferredSize(new Dimension(700, salon.getSalonRow() * grid_size));
+            temp.setPreferredSize(new Dimension(700, 50));
             temp.setLayout(new GridLayout(1, salon.getSalonCol(), 10, 10));
             for (int j = 0; j < salon.getSalonCol(); j++) {
                 JTextField textField;

@@ -1,6 +1,5 @@
 package Panels;
 
-import Classes.Movie;
 import Functionality.UpdateManager;
 import Functionality.buttonMaker;
 import com.google.gson.Gson;
